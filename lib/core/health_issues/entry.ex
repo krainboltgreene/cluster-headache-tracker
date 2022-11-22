@@ -19,7 +19,7 @@ defmodule Core.HealthIssues.Entry do
   @doc false
   def changeset(entry, attrs) do
     entry
-    |> cast(attrs, [:context, :severity, :x, :y, :radius])
+    |> cast(attrs, [:context, :severity, :x, :y, :radius, :note])
     |> put_assoc(:cluster_headache, attrs["cluster_headache"])
     |> validate_required([:context, :severity, :x, :y, :radius, :cluster_headache])
     |> foreign_key_constraint(:cluster_headache_id)

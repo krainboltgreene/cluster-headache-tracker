@@ -36,7 +36,7 @@ defmodule CoreWeb.EntryLive.FormComponent do
         />
         <picture style="display: flex; justify-content: center;">
           <img id="head" src={~p"/images/head.jpg"} />
-          <% if @entry.x || @entry.y do %>
+          <%= if @entry.x || @entry.y do %>
             <svg id="surface" viewBox="0 0 340 480" width="340px" height="480px" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
               <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 13} fill="rgba(240, 40, 40, 0.40)" />
               <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 8} fill="rgba(240, 40, 40, 0.60)" />

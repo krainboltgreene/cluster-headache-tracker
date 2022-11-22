@@ -1,3 +1,29 @@
+<nav>
+  <ul style="display: grid; align-items: center; grid-auto-columns: max-content; grid-auto-flow: column; column-gap: 10px; margin: 10px">
+    <li>Health Issue Tracker</li>
+    <%= if @current_account do %>
+      <li>
+        <.link href={~p"/cluster_headaches"}>Cluster Headaches</.link>
+      </li>
+      <li>
+        Logged in as <%= @current_account.email %>
+      </li>
+      <li>
+        <.link href={~p"/accounts/settings"}>Settings</.link>
+      </li>
+      <li>
+        <.link href={~p"/accounts/log_out"} method="delete">Log out</.link>
+      </li>
+    <% else %>
+      <li>
+        <.link href={~p"/accounts/register"}>Register</.link>
+      </li>
+      <li>
+        <.link href={~p"/accounts/log_in"}>Log in</.link>
+      </li>
+    <% end %>
+  </ul>
+</nav>
 <main class="px-4 py-20 sm:px-6 lg:px-8">
   <div class="mx-auto max-w-2xl">
     <.flash kind={:info} title="Success!" flash={@flash} />

@@ -1,5 +1,9 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+@import "tailwindcss/typography";
 
 /* This file is for your main application CSS */
+a {
+  text-decoration: underline;
+}

@@ -23,7 +23,20 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: {
+  TimelineComponent:  {
+    mounted() {
+      console.debug("Timeline mounted");
+      this.handleEvent("load-timeline-data", ({data}) => {
+        console.debug("Timeline loaded", data)
+        var chart = d3.timelines();
+        var svg = d3.select("#timeline").append("svg").attr("width", 500)
+          .datum(data).call(chart);
+      });
+      this.pushEventTo("#timeline", "request-timeline-data", {});
+    }
+  }
+}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
@@ -38,4 +51,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
