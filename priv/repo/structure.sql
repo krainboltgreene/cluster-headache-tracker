@@ -85,7 +85,22 @@ CREATE TABLE public.entries (
     x integer NOT NULL,
     y integer NOT NULL,
     radius integer NOT NULL,
+    note text DEFAULT ''::text NOT NULL,
     cluster_headache_id uuid NOT NULL,
+    inserted_at timestamp(0) without time zone NOT NULL,
+    updated_at timestamp(0) without time zone NOT NULL
+);
+
+
+--
+-- Name: medications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.medications (
+    id uuid NOT NULL,
+    name text,
+    dosage text,
+    cooldown integer,
     inserted_at timestamp(0) without time zone NOT NULL,
     updated_at timestamp(0) without time zone NOT NULL
 );
@@ -98,6 +113,20 @@ CREATE TABLE public.entries (
 CREATE TABLE public.schema_migrations (
     version bigint NOT NULL,
     inserted_at timestamp(0) without time zone
+);
+
+
+--
+-- Name: treatments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.treatments (
+    id uuid NOT NULL,
+    dosage text DEFAULT ''::text,
+    medication_id uuid,
+    cluster_headache_id uuid,
+    inserted_at timestamp(0) without time zone NOT NULL,
+    updated_at timestamp(0) without time zone NOT NULL
 );
 
 
@@ -134,11 +163,27 @@ ALTER TABLE ONLY public.entries
 
 
 --
+-- Name: medications medications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.medications
+    ADD CONSTRAINT medications_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: treatments treatments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.treatments
+    ADD CONSTRAINT treatments_pkey PRIMARY KEY (id);
 
 
 --
@@ -170,6 +215,13 @@ CREATE INDEX entries_cluster_headache_id_index ON public.entries USING btree (cl
 
 
 --
+-- Name: treatments_medication_id_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX treatments_medication_id_index ON public.treatments USING btree (medication_id);
+
+
+--
 -- Name: accounts_tokens accounts_tokens_account_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -194,9 +246,27 @@ ALTER TABLE ONLY public.entries
 
 
 --
+-- Name: treatments treatments_cluster_headache_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.treatments
+    ADD CONSTRAINT treatments_cluster_headache_id_fkey FOREIGN KEY (cluster_headache_id) REFERENCES public.cluster_headaches(id);
+
+
+--
+-- Name: treatments treatments_medication_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.treatments
+    ADD CONSTRAINT treatments_medication_id_fkey FOREIGN KEY (medication_id) REFERENCES public.medications(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
 INSERT INTO public."schema_migrations" (version) VALUES (20221122134851);
 INSERT INTO public."schema_migrations" (version) VALUES (20221122135308);
 INSERT INTO public."schema_migrations" (version) VALUES (20221122135542);
+INSERT INTO public."schema_migrations" (version) VALUES (20221122185253);
+INSERT INTO public."schema_migrations" (version) VALUES (20221122185457);
