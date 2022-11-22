@@ -1,0 +1,51 @@
+{
+  "atomKeymap.promptV3Features": true,
+  "diffEditor.renderSideBySide": false,
+  "editor.codeActionsOnSave": { "source.fixAll": true },
+  "emmet.includeLanguages": {
+      "phoenix-heex": "html",
+      "html-eex": "html",
+      "elixir": "html"
+  },
+  "editor.fontFamily": "'Fira Code', Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.minimap.enabled": false,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
+  "elixirLS.dialyzerEnabled": true,
+  "elixirLS.dialyzerFormat": "dialyzer",
+  "elixirLS.fetchDeps": false,
+  "elixirLS.mixEnv": "dev",
+  "elixirLS.trace.server": "messages",
+  "explorer.confirmDragAndDrop": false,
+  "files.autoSave": "onFocusChange",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "liveshare.presence": true,
+  "terminal.integrated.copyOnSelection": true,
+  "window.autoDetectColorScheme": true,
+  "workbench.sideBar.location": "right",
+  "terminal.integrated.defaultLocation": "editor",
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Development",
+      "database": "core_dev",
+      "username": "postgres",
+      "password": ""
+    }
+  ],
+  "cSpell.words": [
+    "Cldr",
+    "Randomizer",
+    "spellout",
+    "titlecase"
+  ]
+}

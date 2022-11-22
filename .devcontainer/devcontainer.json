@@ -1,0 +1,34 @@
+// For format details, see https://aka.ms/devcontainer.json.
+{
+  "name": "Project",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "application",
+  "workspaceFolder": "/workspaces/project",
+  "userEnvProbe": "loginInteractiveShell",
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "terminal.integrated.automationShell.linux": "zsh"
+  },
+
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"github.codespaces"
+			]
+		}
+	},
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // This can be used to network with other containers or with the host.
+  "forwardPorts": [4000, 4001, 5432],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "mix deps.get"
+
+  // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+  "remoteUser": "vscode"
+}

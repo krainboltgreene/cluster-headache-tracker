@@ -1,0 +1,4 @@
+elixir 1.14.1-otp-25
+erlang 25.0.4
+postgres 14.2
+nodejs 16.14.2
