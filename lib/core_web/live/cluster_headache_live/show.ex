@@ -16,10 +16,10 @@ defmodule CoreWeb.ClusterHeadacheLive.Show do
      |> assign(
        :cluster_headache,
        HealthIssues.get_cluster_headache!(id)
-       |> Core.Repo.preload([:account, :entries])
+       |> Core.Repo.preload([:account, :entries, treatments: [:medication]])
      )}
   end
 
-  defp page_title(:show), do: "Show Cluster headache"
-  defp page_title(:edit), do: "Edit Cluster headache"
+  defp page_title(:show), do: "Show Cluster Headache"
+  defp page_title(:edit), do: "Edit Cluster Headache"
 end

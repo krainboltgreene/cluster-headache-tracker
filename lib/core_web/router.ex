@@ -89,6 +89,10 @@ defmodule CoreWeb.Router do
       live "/entries/:id/edit", EntryLive.Index, :edit
       live "/entries/:id", EntryLive.Show, :show
       live "/entries/:id/show/edit", EntryLive.Show, :edit
+      live "/treatments/new", TreatmentLive.Index, :new
+      live "/treatments/:id/edit", TreatmentLive.Index, :edit
+      live "/treatments/:id", TreatmentLive.Show, :show
+      live "/treatments/:id/show/edit", TreatmentLive.Show, :edit
     end
   end
 end

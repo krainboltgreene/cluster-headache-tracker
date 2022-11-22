@@ -9,7 +9,6 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
-        <:subtitle>Use this form to manage cluster_headache records in your database.</:subtitle>
       </.header>
 
       <.simple_form
@@ -21,7 +20,7 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
         phx-submit="save"
       >
         <:actions>
-          <.button phx-disable-with="Saving...">Save Cluster headache</.button>
+          <.button phx-disable-with="Saving...">Save Cluster Headache</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -83,7 +82,7 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
       {:ok, _cluster_headache} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Cluster headache updated successfully")
+         |> put_flash(:info, "Cluster Headache updated successfully")
          |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -96,10 +95,11 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
       {:ok, _cluster_headache} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Cluster headache created successfully")
+         |> put_flash(:info, "Cluster Headache created successfully")
          |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        dbg(changeset)
         {:noreply, assign(socket, changeset: changeset)}
     end
   end

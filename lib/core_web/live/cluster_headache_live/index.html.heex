@@ -1,8 +1,8 @@
 <.header>
-  Listing Cluster headaches
+  Listing Cluster Headaches
   <:actions>
     <.link patch={~p"/cluster_headaches/new"}>
-      <.button>New Cluster headache</.button>
+      <.button>New Cluster Headache</.button>
     </.link>
   </:actions>
 </.header>
@@ -12,7 +12,7 @@
   rows={@cluster_headaches}
   row_click={&JS.navigate(~p"/cluster_headaches/#{&1}")}
 >
-  <:col :let={cluster_headache} label="Started"><%= cluster_headache.inserted_at %></:col>
+  <:col :let={cluster_headache} label="Started"><%= Timex.format!(cluster_headache.inserted_at, "{YYYY}/{M}/{D} {h12}:{m}{am} ({WDshort})") %></:col>
   <:action :let={cluster_headache}>
     <div class="sr-only">
       <.link navigate={~p"/cluster_headaches/#{cluster_headache}"}>Show</.link>

@@ -12,29 +12,31 @@
     </script>
   </head>
   <body class="bg-white antialiased">
-    <ul>
-      <%= if @current_account do %>
-        <li>
-          <%= @current_account.email %>
-        </li>
-        <li>
-          <.link href={~p"/cluster_headaches/new"}>New Cluster Headache</.link>
-        </li>
-        <li>
-          <.link href={~p"/accounts/settings"}>Settings</.link>
-        </li>
-        <li>
-          <.link href={~p"/accounts/log_out"} method="delete">Log out</.link>
-        </li>
-      <% else %>
-        <li>
-          <.link href={~p"/accounts/register"}>Register</.link>
-        </li>
-        <li>
-          <.link href={~p"/accounts/log_in"}>Log in</.link>
-        </li>
-      <% end %>
-    </ul>
+    <nav>
+      <ul style="display: grid; align-items: center; justify-content: space-evenly; grid-template-columns: repeat(4, max-content);">
+        <%= if @current_account do %>
+          <li>
+            <%= @current_account.email %>
+          </li>
+          <li>
+            <.link href={~p"/cluster_headaches"}>Cluster Headaches</.link>
+          </li>
+          <li>
+            <.link href={~p"/accounts/settings"}>Settings</.link>
+          </li>
+          <li>
+            <.link href={~p"/accounts/log_out"} method="delete">Log out</.link>
+          </li>
+        <% else %>
+          <li>
+            <.link href={~p"/accounts/register"}>Register</.link>
+          </li>
+          <li>
+            <.link href={~p"/accounts/log_in"}>Log in</.link>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
     <%= @inner_content %>
   </body>
 </html>

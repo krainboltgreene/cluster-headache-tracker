@@ -25,17 +25,51 @@ defmodule CoreWeb.EntryLive.FormComponent do
         <.input
           field={{f, :context}}
           type="select"
-          label="context"
-          options={["ongoing", "end", "restart"]}
+          label="Context"
+          options={["ongoing", "end"]}
         />
         <.input
           field={{f, :severity}}
           type="select"
-          label="severity"
-          options={1..10 |> Enum.map(&Integer.to_string/1)}
+          label="Severity"
+          options={0..10 |> Enum.map(&Integer.to_string/1)}
+        />
+        <picture style="display: flex; justify-content: center;">
+          <img id="head" src={~p"/images/head.jpg"} />
+          <% if @entry.x || @entry.y do %>
+            <svg id="surface" viewBox="0 0 340 480" width="340px" height="480px" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
+              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 13} fill="rgba(240, 40, 40, 0.40)" />
+              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 8} fill="rgba(240, 40, 40, 0.60)" />
+              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 5} fill="rgba(240, 40, 40, 0.80)" />
+            </svg>
+          <% end %>
+        </picture>
+        <script>
+          document.getElementById('head').addEventListener("click", function clickRecordCoordinate({offsetX, offsetY}) {
+            document.getElementById('entry-form_x').value = offsetX;
+            document.getElementById('entry-form_y').value = offsetY;
+          });
+        </script>
+        <.input
+          field={{f, :x}}
+          type="hidden"
+        />
+        <.input
+          field={{f, :y}}
+          type="hidden"
+        />
+        <.input
+          field={{f, :radius}}
+          type="number"
+          label="Radius"
+        />
+        <.input
+          field={{f, :notes}}
+          type="textarea"
+          label="Note"
         />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Cluster headache entry</.button>
+          <.button phx-disable-with="Saving...">Save Entry</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -85,7 +119,7 @@ defmodule CoreWeb.EntryLive.FormComponent do
       {:ok, _entry} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Cluster headache entry updated successfully")
+         |> put_flash(:info, "Entry updated successfully")
          |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -98,7 +132,7 @@ defmodule CoreWeb.EntryLive.FormComponent do
       {:ok, _entry} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Cluster headache entry created successfully")
+         |> put_flash(:info, "Entry created successfully")
          |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

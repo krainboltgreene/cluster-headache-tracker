@@ -10,6 +10,7 @@ defmodule Core.HealthIssues.Entry do
     field :radius, :integer
     field :x, :integer
     field :y, :integer
+    field :note, :string
     belongs_to :cluster_headache, Core.HealthIssues.ClusterHeadache
 
     timestamps()

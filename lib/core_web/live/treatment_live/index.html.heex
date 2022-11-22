@@ -1,0 +1,42 @@
+<.header>
+  Listing Treatments
+  <:actions>
+    <.link patch={~p"/treatments/new"}>
+      <.button>New Treatment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="treatments" rows={@treatments} row_click={&JS.navigate(~p"/treatments/#{&1}")}>
+  <:col :let={treatment} label="Medication"><%= treatment.medication.name %></:col>
+  <:col :let={treatment} label="Dosage"><%= treatment.dosage %></:col>
+  <:action :let={treatment}>
+    <div class="sr-only">
+      <.link navigate={~p"/treatments/#{treatment}"}>Show</.link>
+    </div>
+    <.link patch={~p"/treatments/#{treatment}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={treatment}>
+    <.link phx-click={JS.push("delete", value: %{id: treatment.id})} data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="treatment-modal"
+  show
+  on_cancel={JS.navigate(~p"/cluster_headaches")}
+>
+  <.live_component
+    module={CoreWeb.TreatmentLive.FormComponent}
+    id={@treatment.id || :new}
+    title={@page_title}
+    action={@live_action}
+    treatment={@treatment}
+    cluster_headache={@cluster_headache}
+    medications={@medications}
+    navigate={~p"/cluster_headaches/#{@cluster_headache}"}
+  />
+</.modal>

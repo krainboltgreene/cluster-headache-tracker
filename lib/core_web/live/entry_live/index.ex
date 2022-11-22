@@ -16,20 +16,20 @@ defmodule CoreWeb.EntryLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Cluster headache entry")
+    |> assign(:page_title, "Edit Entry")
     |> assign(:entry, HealthIssues.get_entry!(id))
   end
 
   defp apply_action(socket, :new, %{"cluster_headache_id" => cluster_headache_id}) do
     socket
-    |> assign(:page_title, "New Cluster headache entry")
+    |> assign(:page_title, "New Entry")
     |> assign(:entry, %Entry{})
     |> assign(:cluster_headache, HealthIssues.get_cluster_headache!(cluster_headache_id))
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Cluster headache entries")
+    |> assign(:page_title, "Listing Entries")
     |> assign(:entry, nil)
   end
 

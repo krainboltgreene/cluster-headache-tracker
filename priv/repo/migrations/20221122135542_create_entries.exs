@@ -9,6 +9,7 @@ defmodule Core.Repo.Migrations.CreateEntries do
       add :x, :integer, null: false
       add :y, :integer, null: false
       add :radius, :integer, null: false
+      add :note, :text, null: false, default: ""
 
       add :cluster_headache_id,
           references(:cluster_headaches, on_delete: :nothing, type: :binary_id),

@@ -16,23 +16,23 @@ defmodule CoreWeb.ClusterHeadacheLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Cluster headache")
+    |> assign(:page_title, "Edit Cluster Headache")
     |> assign(
       :cluster_headache,
       HealthIssues.get_cluster_headache!(id)
-      |> Core.Repo.preload([:account, :entries])
+      |> Core.Repo.preload([:account, :entries, :treatments])
     )
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Cluster headache")
+    |> assign(:page_title, "New Cluster Headache")
     |> assign(:cluster_headache, %ClusterHeadache{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Cluster headaches")
+    |> assign(:page_title, "Listing Cluster Headaches")
     |> assign(:cluster_headache, nil)
   end
 
@@ -46,6 +46,6 @@ defmodule CoreWeb.ClusterHeadacheLive.Index do
 
   defp list_cluster_headaches do
     HealthIssues.list_cluster_headaches()
-    |> Core.Repo.preload([:account, :entries])
+    |> Core.Repo.preload([:account, :entries, treatments: [:medication]])
   end
 end

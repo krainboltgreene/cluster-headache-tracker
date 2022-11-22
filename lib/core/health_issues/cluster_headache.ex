@@ -7,6 +7,7 @@ defmodule Core.HealthIssues.ClusterHeadache do
   schema "cluster_headaches" do
     belongs_to :account, Core.Users.Account, on_replace: :update
     has_many :entries, Core.HealthIssues.Entry
+    has_many :treatments, Core.HealthIssues.Treatment
 
     timestamps()
   end
@@ -15,7 +16,7 @@ defmodule Core.HealthIssues.ClusterHeadache do
   def changeset(cluster_headache, attrs) do
     cluster_headache
     |> cast(attrs, [])
-    |> put_assoc(:account, attrs[:account])
+    |> put_assoc(:account, attrs["account"])
     |> validate_required([:account])
     |> foreign_key_constraint(:account_id)
   end

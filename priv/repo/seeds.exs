@@ -9,3 +9,5 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+Core.Repo.insert!(%Core.Healthcares.Medication{name: "Tylenol", dosage: "2 pills", cooldown: 6})

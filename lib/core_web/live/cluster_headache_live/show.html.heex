@@ -1,5 +1,5 @@
 <.header>
-  Cluster headache <%= @cluster_headache.id %>
+  Cluster Headache <%= Timex.format!(@cluster_headache.inserted_at, "{h12}:{m}{am} {YYYY}/{M}/{D} ({WDshort})") %>
   <:subtitle>This is a cluster_headache record from your database.</:subtitle>
   <:actions>
     <.link
@@ -12,17 +12,27 @@
 </.header>
 
 <.list>
-  <:item title="Started"><%= @cluster_headache.inserted_at %></:item>
   <:item title="Entries">
     <ul>
       <%= for entry <- @cluster_headache.entries do %>
-        <li>
-          <%= entry.inserted_at %>
-          <.link href={~p"/entries/#{entry}"}><%= entry.context %> <%= entry.severity %></.link>
+        <li style="font-family: monospace;">
+          <.link href={~p"/entries/#{entry}"}><%= Timex.format!(entry.inserted_at, "{h12}:{m}{am}") %> Pain Index <%= entry.severity %> (<%= entry.context %>)</.link>
         </li>
       <% end %>
       <li>
         <.link href={~p"/entries/new?cluster_headache_id=#{@cluster_headache}"}>New entry</.link>
+      </li>
+    </ul>
+  </:item>
+  <:item title="Treatments">
+    <ul>
+      <%= for treatment <- @cluster_headache.treatments do %>
+        <li style="font-family: monospace;">
+          <.link href={~p"/treatments/#{treatment}"}><%= Timex.format!(treatment.inserted_at, "{h12}:{m}{am}") %> <%= treatment.medication.name %> (<%= treatment.dosage %>)</.link>
+        </li>
+      <% end %>
+      <li>
+        <.link href={~p"/treatments/new?cluster_headache_id=#{@cluster_headache}"}>New treatment</.link>
       </li>
     </ul>
   </:item>
