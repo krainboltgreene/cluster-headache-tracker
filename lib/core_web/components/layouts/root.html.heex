@@ -4,14 +4,37 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
-      <%= assigns[:page_title] || "Core" %>
+    <.live_title suffix=" · HIS">
+      <%= assigns[:page_title] || "Health Issue Tracker" %>
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
   </head>
   <body class="bg-white antialiased">
+    <ul>
+      <%= if @current_account do %>
+        <li>
+          <%= @current_account.email %>
+        </li>
+        <li>
+          <.link href={~p"/cluster_headaches/new"}>New Cluster Headache</.link>
+        </li>
+        <li>
+          <.link href={~p"/accounts/settings"}>Settings</.link>
+        </li>
+        <li>
+          <.link href={~p"/accounts/log_out"} method="delete">Log out</.link>
+        </li>
+      <% else %>
+        <li>
+          <.link href={~p"/accounts/register"}>Register</.link>
+        </li>
+        <li>
+          <.link href={~p"/accounts/log_in"}>Log in</.link>
+        </li>
+      <% end %>
+    </ul>
     <%= @inner_content %>
   </body>
 </html>

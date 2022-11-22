@@ -1,0 +1,34 @@
+<.header>
+  Cluster headache entry <%= @cluster_headache_entry.id %>
+  <:subtitle>This is a cluster_headache_entry record from your database.</:subtitle>
+  <:actions>
+    <.link
+      patch={~p"/cluster_headache_entries/#{@cluster_headache_entry}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
+      <.button>Edit cluster_headache_entry</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Context"><%= @cluster_headache_entry.context %></:item>
+</.list>
+
+<.back navigate={~p"/cluster_headache_entries"}>Back to cluster_headache_entries</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="cluster_headache_entry-modal"
+  show
+  on_cancel={JS.patch(~p"/cluster_headache_entries/#{@cluster_headache_entry}")}
+>
+  <.live_component
+    module={CoreWeb.ClusterHeadacheEntryLive.FormComponent}
+    id={@cluster_headache_entry.id}
+    title={@page_title}
+    action={@live_action}
+    cluster_headache_entry={@cluster_headache_entry}
+    navigate={~p"/cluster_headache_entries/#{@cluster_headache_entry}"}
+  />
+</.modal>

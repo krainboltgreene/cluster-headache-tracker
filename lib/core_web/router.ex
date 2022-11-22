@@ -1,6 +1,8 @@
 defmodule CoreWeb.Router do
   use CoreWeb, :router
 
+  import CoreWeb.AccountAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,6 +10,7 @@ defmodule CoreWeb.Router do
     plug :put_root_layout, {CoreWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_account
   end
 
   pipeline :api do
@@ -39,6 +42,57 @@ defmodule CoreWeb.Router do
 
       live_dashboard "/dashboard", metrics: CoreWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
+    end
+  end
+
+  ## Authentication routes
+
+  scope "/", CoreWeb do
+    pipe_through [:browser, :redirect_if_account_is_authenticated]
+
+    live_session :redirect_if_account_is_authenticated,
+      on_mount: [{CoreWeb.AccountAuth, :redirect_if_account_is_authenticated}] do
+      live "/accounts/register", AccountRegistrationLive, :new
+      live "/accounts/log_in", AccountLoginLive, :new
+      live "/accounts/reset_password", AccountForgotPasswordLive, :new
+      live "/accounts/reset_password/:token", AccountResetPasswordLive, :edit
+    end
+
+    post "/accounts/log_in", AccountSessionController, :create
+  end
+
+  scope "/", CoreWeb do
+    pipe_through [:browser, :require_authenticated_account]
+
+    live_session :require_authenticated_account,
+      on_mount: [{CoreWeb.AccountAuth, :ensure_authenticated}] do
+      live "/accounts/settings", AccountSettingsLive, :edit
+      live "/accounts/settings/confirm_email/:token", AccountSettingsLive, :confirm_email
+      live "/cluster_headaches", ClusterHeadacheLive.Index, :index
+      live "/cluster_headaches/new", ClusterHeadacheLive.Index, :new
+      live "/cluster_headaches/:id/edit", ClusterHeadacheLive.Index, :edit
+      live "/cluster_headaches/:id", ClusterHeadacheLive.Show, :show
+      live "/cluster_headaches/:id/show/edit", ClusterHeadacheLive.Show, :edit
+      live "/cluster_headache_locations/new", ClusterHeadacheLocationLive.Index, :new
+      live "/cluster_headache_locations/:id/edit", ClusterHeadacheLocationLive.Index, :edit
+      live "/cluster_headache_locations/:id", ClusterHeadacheLocationLive.Show, :show
+      live "/cluster_headache_locations/:id/show/edit", ClusterHeadacheLocationLive.Show, :edit
+      live "/cluster_headache_entries/new", ClusterHeadacheEntryLive.Index, :new
+      live "/cluster_headache_entries/:id/edit", ClusterHeadacheEntryLive.Index, :edit
+      live "/cluster_headache_entries/:id", ClusterHeadacheEntryLive.Show, :show
+      live "/cluster_headache_entries/:id/show/edit", ClusterHeadacheEntryLive.Show, :edit
+    end
+  end
+
+  scope "/", CoreWeb do
+    pipe_through [:browser]
+
+    delete "/accounts/log_out", AccountSessionController, :delete
+
+    live_session :current_account,
+      on_mount: [{CoreWeb.AccountAuth, :mount_current_account}] do
+      live "/accounts/confirm/:token", AccountConfirmationLive, :edit
+      live "/accounts/confirm", AccountConfirmationInstructionsLive, :new
     end
   end
 end
