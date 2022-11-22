@@ -5,9 +5,8 @@ defmodule Core.HealthIssues.ClusterHeadache do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "cluster_headaches" do
-    belongs_to :account, Core.Users.Account
-    has_many :cluster_headache_locations, Core.HealthIssues.ClusterHeadacheLocation
-    has_many :cluster_headache_entries, Core.HealthIssues.ClusterHeadacheEntry
+    belongs_to :account, Core.Users.Account, on_replace: :update
+    has_many :entries, Core.HealthIssues.Entry
 
     timestamps()
   end

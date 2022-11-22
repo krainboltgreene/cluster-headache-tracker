@@ -68,19 +68,6 @@ defmodule CoreWeb.Router do
       on_mount: [{CoreWeb.AccountAuth, :ensure_authenticated}] do
       live "/accounts/settings", AccountSettingsLive, :edit
       live "/accounts/settings/confirm_email/:token", AccountSettingsLive, :confirm_email
-      live "/cluster_headaches", ClusterHeadacheLive.Index, :index
-      live "/cluster_headaches/new", ClusterHeadacheLive.Index, :new
-      live "/cluster_headaches/:id/edit", ClusterHeadacheLive.Index, :edit
-      live "/cluster_headaches/:id", ClusterHeadacheLive.Show, :show
-      live "/cluster_headaches/:id/show/edit", ClusterHeadacheLive.Show, :edit
-      live "/cluster_headache_locations/new", ClusterHeadacheLocationLive.Index, :new
-      live "/cluster_headache_locations/:id/edit", ClusterHeadacheLocationLive.Index, :edit
-      live "/cluster_headache_locations/:id", ClusterHeadacheLocationLive.Show, :show
-      live "/cluster_headache_locations/:id/show/edit", ClusterHeadacheLocationLive.Show, :edit
-      live "/cluster_headache_entries/new", ClusterHeadacheEntryLive.Index, :new
-      live "/cluster_headache_entries/:id/edit", ClusterHeadacheEntryLive.Index, :edit
-      live "/cluster_headache_entries/:id", ClusterHeadacheEntryLive.Show, :show
-      live "/cluster_headache_entries/:id/show/edit", ClusterHeadacheEntryLive.Show, :edit
     end
   end
 
@@ -93,6 +80,15 @@ defmodule CoreWeb.Router do
       on_mount: [{CoreWeb.AccountAuth, :mount_current_account}] do
       live "/accounts/confirm/:token", AccountConfirmationLive, :edit
       live "/accounts/confirm", AccountConfirmationInstructionsLive, :new
+      live "/cluster_headaches", ClusterHeadacheLive.Index, :index
+      live "/cluster_headaches/new", ClusterHeadacheLive.Index, :new
+      live "/cluster_headaches/:id/edit", ClusterHeadacheLive.Index, :edit
+      live "/cluster_headaches/:id", ClusterHeadacheLive.Show, :show
+      live "/cluster_headaches/:id/show/edit", ClusterHeadacheLive.Show, :edit
+      live "/entries/new", EntryLive.Index, :new
+      live "/entries/:id/edit", EntryLive.Index, :edit
+      live "/entries/:id", EntryLive.Show, :show
+      live "/entries/:id/show/edit", EntryLive.Show, :edit
     end
   end
 end

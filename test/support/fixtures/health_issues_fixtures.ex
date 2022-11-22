@@ -17,17 +17,17 @@ defmodule Core.HealthIssuesFixtures do
   end
 
   @doc """
-  Generate a cluster_headache_entry.
+  Generate a entry.
   """
-  def cluster_headache_entry_fixture(attrs \\ %{}) do
-    {:ok, cluster_headache_entry} =
+  def entry_fixture(attrs \\ %{}) do
+    {:ok, entry} =
       attrs
       |> Enum.into(%{
         context: "some context"
       })
-      |> Core.HealthIssues.create_cluster_headache_entry()
+      |> Core.HealthIssues.create_entry()
 
-    cluster_headache_entry
+    entry
   end
 
   @doc """

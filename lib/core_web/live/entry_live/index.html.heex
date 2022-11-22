@@ -1,0 +1,40 @@
+<.header>
+  Listing Cluster headache entries
+  <:actions>
+    <.link patch={~p"/entries/new"}>
+      <.button>New Cluster headache entry</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="entries" rows={@entries} row_click={&JS.navigate(~p"/entries/#{&1}")}>
+  <:col :let={entry} label="Context"><%= entry.context %></:col>
+  <:action :let={entry}>
+    <div class="sr-only">
+      <.link navigate={~p"/entries/#{entry}"}>Show</.link>
+    </div>
+    <.link patch={~p"/entries/#{entry}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={entry}>
+    <.link phx-click={JS.push("delete", value: %{id: entry.id})} data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="entry-modal"
+  show
+  on_cancel={JS.navigate(~p"/cluster_headaches")}
+>
+  <.live_component
+    module={CoreWeb.EntryLive.FormComponent}
+    id={@entry.id || :new}
+    title={@page_title}
+    action={@live_action}
+    entry={@entry}
+    cluster_headache={@cluster_headache}
+    navigate={~p"/cluster_headaches/#{@cluster_headache}"}
+  />
+</.modal>

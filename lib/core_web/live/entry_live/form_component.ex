@@ -1,4 +1,4 @@
-defmodule CoreWeb.ClusterHeadacheEntryLive.FormComponent do
+defmodule CoreWeb.EntryLive.FormComponent do
   use CoreWeb, :live_component
 
   alias Core.HealthIssues
@@ -10,19 +10,30 @@ defmodule CoreWeb.ClusterHeadacheEntryLive.FormComponent do
       <.header>
         <%= @title %>
         <:subtitle>
-          Use this form to manage cluster_headache_entry records in your database.
+          Use this form to manage entry records in your database.
         </:subtitle>
       </.header>
 
       <.simple_form
         :let={f}
         for={@changeset}
-        id="cluster_headache_entry-form"
+        id="entry-form"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={{f, :context}} type="text" label="context" />
+        <.input
+          field={{f, :context}}
+          type="select"
+          label="context"
+          options={["ongoing", "end", "restart"]}
+        />
+        <.input
+          field={{f, :severity}}
+          type="select"
+          label="severity"
+          options={1..10 |> Enum.map(&Integer.to_string/1)}
+        />
         <:actions>
           <.button phx-disable-with="Saving...">Save Cluster headache entry</.button>
         </:actions>
@@ -32,8 +43,8 @@ defmodule CoreWeb.ClusterHeadacheEntryLive.FormComponent do
   end
 
   @impl true
-  def update(%{cluster_headache_entry: cluster_headache_entry} = assigns, socket) do
-    changeset = HealthIssues.change_cluster_headache_entry(cluster_headache_entry)
+  def update(%{entry: entry} = assigns, socket) do
+    changeset = HealthIssues.change_entry(entry)
 
     {:ok,
      socket
@@ -44,27 +55,34 @@ defmodule CoreWeb.ClusterHeadacheEntryLive.FormComponent do
   @impl true
   def handle_event(
         "validate",
-        %{"cluster_headache_entry" => cluster_headache_entry_params},
+        %{"entry" => entry_params},
         socket
       ) do
     changeset =
-      socket.assigns.cluster_headache_entry
-      |> HealthIssues.change_cluster_headache_entry(cluster_headache_entry_params)
+      socket.assigns.entry
+      |> HealthIssues.change_entry(
+        entry_params
+        |> Map.put("cluster_headache", socket.assigns.cluster_headache)
+      )
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
-  def handle_event("save", %{"cluster_headache_entry" => cluster_headache_entry_params}, socket) do
-    save_cluster_headache_entry(socket, socket.assigns.action, cluster_headache_entry_params)
+  def handle_event("save", %{"entry" => entry_params}, socket) do
+    save_entry(
+      socket,
+      socket.assigns.action,
+      entry_params |> Map.put("cluster_headache", socket.assigns.cluster_headache)
+    )
   end
 
-  defp save_cluster_headache_entry(socket, :edit, cluster_headache_entry_params) do
-    case HealthIssues.update_cluster_headache_entry(
-           socket.assigns.cluster_headache_entry,
-           cluster_headache_entry_params
+  defp save_entry(socket, :edit, entry_params) do
+    case HealthIssues.update_entry(
+           socket.assigns.entry,
+           entry_params
          ) do
-      {:ok, _cluster_headache_entry} ->
+      {:ok, _entry} ->
         {:noreply,
          socket
          |> put_flash(:info, "Cluster headache entry updated successfully")
@@ -75,9 +93,9 @@ defmodule CoreWeb.ClusterHeadacheEntryLive.FormComponent do
     end
   end
 
-  defp save_cluster_headache_entry(socket, :new, cluster_headache_entry_params) do
-    case HealthIssues.create_cluster_headache_entry(cluster_headache_entry_params) do
-      {:ok, _cluster_headache_entry} ->
+  defp save_entry(socket, :new, entry_params) do
+    case HealthIssues.create_entry(entry_params) do
+      {:ok, _entry} ->
         {:noreply,
          socket
          |> put_flash(:info, "Cluster headache entry created successfully")

@@ -12,7 +12,7 @@
   rows={@cluster_headaches}
   row_click={&JS.navigate(~p"/cluster_headaches/#{&1}")}
 >
-  <:col :let={cluster_headache} label="insert_at"><%= cluster_headache.insert_at %></:col>
+  <:col :let={cluster_headache} label="Started"><%= cluster_headache.inserted_at %></:col>
   <:action :let={cluster_headache}>
     <div class="sr-only">
       <.link navigate={~p"/cluster_headaches/#{cluster_headache}"}>Show</.link>
@@ -41,6 +41,7 @@
     title={@page_title}
     action={@live_action}
     cluster_headache={@cluster_headache}
+    current_account={@current_account}
     navigate={~p"/cluster_headaches"}
   />
 </.modal>

@@ -11,7 +11,22 @@
   </:actions>
 </.header>
 
-<.list></.list>
+<.list>
+  <:item title="Started"><%= @cluster_headache.inserted_at %></:item>
+  <:item title="Entries">
+    <ul>
+      <%= for entry <- @cluster_headache.entries do %>
+        <li>
+          <%= entry.inserted_at %>
+          <.link href={~p"/entries/#{entry}"}><%= entry.context %> <%= entry.severity %></.link>
+        </li>
+      <% end %>
+      <li>
+        <.link href={~p"/entries/new?cluster_headache_id=#{@cluster_headache}"}>New entry</.link>
+      </li>
+    </ul>
+  </:item>
+</.list>
 
 <.back navigate={~p"/cluster_headaches"}>Back to cluster_headaches</.back>
 

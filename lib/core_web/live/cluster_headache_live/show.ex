@@ -13,7 +13,11 @@ defmodule CoreWeb.ClusterHeadacheLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:cluster_headache, HealthIssues.get_cluster_headache!(id))}
+     |> assign(
+       :cluster_headache,
+       HealthIssues.get_cluster_headache!(id)
+       |> Core.Repo.preload([:account, :entries])
+     )}
   end
 
   defp page_title(:show), do: "Show Cluster headache"
