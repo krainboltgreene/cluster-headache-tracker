@@ -29,9 +29,37 @@ let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToke
       console.debug("Timeline mounted");
       this.handleEvent("load-timeline-data", ({data}) => {
         console.debug("Timeline loaded", data)
-        var chart = d3.timelines();
-        var svg = d3.select("#timeline").append("svg").attr("width", 500)
-          .datum(data).call(chart);
+        c3.generate({
+          bindto: "#timeline",
+          data: {
+            x: "x",
+            xFormat: "%Y-%m-%dT%H:%M:%S",
+            json: data,
+            keys: {
+              x: 'timestamp',
+              value: ['severity']
+            }
+          },
+          axis: {
+            x: {
+              type: "timeseries",
+              localtime: false,
+              label: "Time",
+              tick: {
+                rotate: 34,
+                multiline: true,
+                format: "%H:%M",
+                max: new Date()
+              }
+            },
+            y: {
+              label: "Severity",
+              max: 10,
+              min: 0,
+              padding: {top: 0, bottom: 0}
+            }
+          }
+      });
       });
       this.pushEventTo("#timeline", "request-timeline-data", {});
     }

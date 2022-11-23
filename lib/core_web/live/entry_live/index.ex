@@ -15,15 +15,17 @@ defmodule CoreWeb.EntryLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
+    record = HealthIssues.get_entry!(id) |> Core.Repo.preload([:cluster_headache])
     socket
     |> assign(:page_title, "Edit Entry")
-    |> assign(:entry, HealthIssues.get_entry!(id))
+    |> assign(:entry, record)
+    |> assign(:cluster_headache, record.cluster_headache)
   end
 
   defp apply_action(socket, :new, %{"cluster_headache_id" => cluster_headache_id}) do
     socket
     |> assign(:page_title, "New Entry")
-    |> assign(:entry, %Entry{})
+    |> assign(:entry, %Entry{} |> Core.Repo.preload([:cluster_headache]))
     |> assign(:cluster_headache, HealthIssues.get_cluster_headache!(cluster_headache_id))
   end
 
@@ -42,6 +44,6 @@ defmodule CoreWeb.EntryLive.Index do
   end
 
   defp list_entries(cluster_headache_id) do
-    HealthIssues.list_entries(cluster_headache_id)
+    HealthIssues.list_entries(cluster_headache_id) |> Core.Repo.preload([:cluster_headache])
   end
 end

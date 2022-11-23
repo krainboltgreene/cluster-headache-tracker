@@ -11,7 +11,7 @@ defmodule Core.HealthIssues.Entry do
     field :x, :integer
     field :y, :integer
     field :note, :string
-    belongs_to :cluster_headache, Core.HealthIssues.ClusterHeadache
+    belongs_to :cluster_headache, Core.HealthIssues.ClusterHeadache, on_replace: :update
 
     timestamps()
   end

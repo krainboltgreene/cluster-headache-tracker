@@ -16,7 +16,7 @@
     <ul>
       <%= for entry <- @cluster_headache.entries do %>
         <li style="font-family: monospace;">
-          <.link href={~p"/entries/#{entry}"}><%= Timex.format!(entry.inserted_at, "{h12}:{m}{am}") %> Pain Index <%= entry.severity %> (<%= entry.context %>)</.link>
+          <.link href={~p"/entries/#{entry}"}><%= Timex.format!(entry.inserted_at, "{h12}:{m}{am}") %> Pain Index <%= entry.severity %></.link>
         </li>
       <% end %>
       <li>

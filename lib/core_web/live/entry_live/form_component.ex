@@ -64,7 +64,7 @@ defmodule CoreWeb.EntryLive.FormComponent do
           label="Radius"
         />
         <.input
-          field={{f, :notes}}
+          field={{f, :note}}
           type="textarea"
           label="Note"
         />
@@ -92,11 +92,12 @@ defmodule CoreWeb.EntryLive.FormComponent do
         %{"entry" => entry_params},
         socket
       ) do
+    dbg(socket.assigns)
     changeset =
       socket.assigns.entry
       |> HealthIssues.change_entry(
         entry_params
-        |> Map.put("cluster_headache", socket.assigns.cluster_headache)
+        |> Map.put("cluster_headache", socket.assigns.entry.cluster_headache || socket.assigns.cluster_headache)
       )
       |> Map.put(:action, :validate)
 
@@ -107,7 +108,7 @@ defmodule CoreWeb.EntryLive.FormComponent do
     save_entry(
       socket,
       socket.assigns.action,
-      entry_params |> Map.put("cluster_headache", socket.assigns.cluster_headache)
+      entry_params |> Map.put("cluster_headache", socket.assigns.entry.cluster_headache || socket.assigns.cluster_headache)
     )
   end
 
