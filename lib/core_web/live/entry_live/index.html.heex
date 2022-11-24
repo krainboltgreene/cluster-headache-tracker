@@ -8,7 +8,7 @@
 </.header>
 
 <.table id="entries" rows={@entries} row_click={&JS.navigate(~p"/entries/#{&1}")}>
-  <:col :let={entry} label="Time"><%= entry.inserted_at %></:col>
+  <:col :let={entry} label="Time"><.hour_timestamp value={entry.inserted_at} /></:col>
   <:col :let={entry} label="Context"><%= entry.context %></:col>
   <:col :let={entry} label="Severity"><%= entry.severity %></:col>
   <:action :let={entry}>

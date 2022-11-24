@@ -18,7 +18,7 @@
   rows={@cluster_headaches}
   row_click={&JS.navigate(~p"/cluster_headaches/#{&1}")}
 >
-  <:col :let={cluster_headache} label="Started"><%= Timex.format!(cluster_headache.inserted_at, "{YYYY}/{M}/{D} {h12}:{m}{am} ({WDshort})") %></:col>
+  <:col :let={cluster_headache} label="Started"><.datetime_timestamp value={cluster_headache.inserted_at} /></:col>
   <:action :let={cluster_headache}>
     <div class="sr-only">
       <.link navigate={~p"/cluster_headaches/#{cluster_headache}"}>Show</.link>

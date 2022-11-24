@@ -11,8 +11,26 @@ defmodule CoreWeb.CoreComponents do
   """
   use Phoenix.Component
 
+  alias Timex.NaiveDateTime
   alias Phoenix.LiveView.JS
   import CoreWeb.Gettext
+
+  attr :value, NaiveDateTime
+  attr :rest, :global
+  def hour_timestamp(assigns) do
+
+    ~H"""
+    <time time={@value}><%= Timex.format!(Timex.Timezone.convert(@value, Timex.Timezone.get("America/Los_Angeles")), "{h12}:{m}{am}") %></time>
+    """
+  end
+
+  attr :value, NaiveDateTime
+  attr :rest, :global
+  def datetime_timestamp(assigns) do
+    ~H"""
+    <time time={@value}><%= Timex.format!(Timex.Timezone.convert(@value, Timex.Timezone.get("America/Los_Angeles")), "{YYYY}/{M}/{D} {h12}:{m}{am} ({WDshort})") %></time>
+    """
+  end
 
   @doc """
   Renders a modal.
