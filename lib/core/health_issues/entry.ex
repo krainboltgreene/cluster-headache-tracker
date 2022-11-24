@@ -8,7 +8,7 @@ defmodule Core.HealthIssues.Entry do
   schema "entries" do
     field :context, :string
     field :severity, :integer
-    field :radius, :integer
+    field :radius, :integer, default: 2
     field :x, :integer
     field :y, :integer
     field :note, :string
