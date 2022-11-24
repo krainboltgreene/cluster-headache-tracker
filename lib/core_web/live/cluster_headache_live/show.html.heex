@@ -1,12 +1,11 @@
 <.header>
-  Cluster Headache <%= Timex.format!(@cluster_headache.inserted_at, "{h12}:{m}{am} {YYYY}/{M}/{D} ({WDshort})") %>
-  <:subtitle>This is a cluster_headache record from your database.</:subtitle>
+  Started <%= Timex.format!(@cluster_headache.inserted_at, "{h12}:{m}{am} {YYYY}/{M}/{D} ({WDshort})") %>
   <:actions>
     <.link
       patch={~p"/cluster_headaches/#{@cluster_headache}/show/edit"}
       phx-click={JS.push_focus()}
     >
-      <.button>Edit cluster_headache</.button>
+      <.button>Edit Cluster Headache</.button>
     </.link>
   </:actions>
 </.header>
@@ -38,7 +37,7 @@
   </:item>
 </.list>
 
-<.back navigate={~p"/cluster_headaches"}>Back to cluster_headaches</.back>
+<.back navigate={~p"/cluster_headaches"}>Back to cluster headaches</.back>
 
 <.modal
   :if={@live_action == :edit}
