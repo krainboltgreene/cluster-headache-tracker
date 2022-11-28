@@ -102,7 +102,6 @@ defmodule CoreWeb.TreatmentLive.FormComponent do
          |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        dbg(changeset)
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
