@@ -18,7 +18,11 @@ defmodule Core.HealthIssues do
 
   """
   def list_cluster_headaches do
-    Repo.all(ClusterHeadache)
+    from(
+      cluster_headache in ClusterHeadache,
+      order_by: [desc: :inserted_at]
+    )
+    |> Repo.all()
   end
 
   @doc """

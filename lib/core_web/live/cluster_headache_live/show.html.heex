@@ -1,22 +1,25 @@
+<.live_component
+  module={CoreWeb.ClusterHeadacheLive.TimelineComponent}
+  id="timeline"
+  cluster_headaches={[@cluster_headache]}
+/>
 <.header>
-  Cluster Headache <%= Timex.format!(@cluster_headache.inserted_at, "{h12}:{m}{am} {YYYY}/{M}/{D} ({WDshort})") %>
-  <:subtitle>This is a cluster_headache record from your database.</:subtitle>
+  Started <.datetime_timestamp value={@cluster_headache.inserted_at} />
   <:actions>
     <.link
       patch={~p"/cluster_headaches/#{@cluster_headache}/show/edit"}
       phx-click={JS.push_focus()}
     >
-      <.button>Edit cluster_headache</.button>
+      <.button>Edit Cluster Headache</.button>
     </.link>
   </:actions>
 </.header>
-
 <.list>
   <:item title="Entries">
     <ul>
       <%= for entry <- @cluster_headache.entries do %>
         <li style="font-family: monospace;">
-          <.link href={~p"/entries/#{entry}"}><%= Timex.format!(entry.inserted_at, "{h12}:{m}{am}") %> Pain Index <%= entry.severity %> (<%= entry.context %>)</.link>
+          <.link href={~p"/entries/#{entry}"}><.hour_timestamp value={entry.inserted_at} /> Pain Index <%= entry.severity %></.link>
         </li>
       <% end %>
       <li>
@@ -28,7 +31,7 @@
     <ul>
       <%= for treatment <- @cluster_headache.treatments do %>
         <li style="font-family: monospace;">
-          <.link href={~p"/treatments/#{treatment}"}><%= Timex.format!(treatment.inserted_at, "{h12}:{m}{am}") %> <%= treatment.medication.name %> (<%= treatment.dosage %>)</.link>
+          <.link href={~p"/treatments/#{treatment}"}><.hour_timestamp value={treatment.inserted_at} /> <%= treatment.medication.name %> (<%= treatment.dosage %>)</.link>
         </li>
       <% end %>
       <li>
@@ -38,7 +41,7 @@
   </:item>
 </.list>
 
-<.back navigate={~p"/cluster_headaches"}>Back to cluster_headaches</.back>
+<.back navigate={~p"/cluster_headaches"}>Back to cluster headaches</.back>
 
 <.modal
   :if={@live_action == :edit}

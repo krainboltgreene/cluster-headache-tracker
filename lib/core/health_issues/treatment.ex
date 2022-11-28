@@ -4,6 +4,7 @@ defmodule Core.HealthIssues.Treatment do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @timestamps_opts [type: :utc_datetime]
   schema "treatments" do
     field :dosage, :string
     belongs_to :medication, Core.Healthcares.Medication

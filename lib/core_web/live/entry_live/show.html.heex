@@ -1,5 +1,5 @@
 <.header>
-  Entry <%= Timex.format!(@entry.inserted_at, "{h12}:{m}{am}") %>
+  Entry <.hour_timestamp value={@entry.inserted_at} />
   <:subtitle>This is a entry record from your database.</:subtitle>
   <:actions>
     <.link patch={~p"/entries/#{@entry}/show/edit"} phx-click={JS.push_focus()}>
@@ -13,11 +13,11 @@
   <:item title="Severity"><%= @entry.severity %></:item>
   <:item title="Location">
     <picture style="display: flex; justify-content: center;">
-      <img id="head" src={~p"/images/head.jpg"} />
+      <img src={~p"/images/head.jpg"} />
       <svg id="surface" viewBox="0 0 340 480" width="340px" height="480px" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
-        <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 13} fill="rgba(240, 40, 40, 0.40)" />
-        <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 8} fill="rgba(240, 40, 40, 0.60)" />
-        <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 5} fill="rgba(240, 40, 40, 0.80)" />
+        <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 4 * 2 * 2} fill="rgba(240, 40, 40, 0.40)" />
+        <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 4 * 2} fill="rgba(240, 40, 40, 0.60)" />
+        <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 4} fill="rgba(240, 40, 40, 0.80)" />
       </svg>
     </picture>
   </:item>

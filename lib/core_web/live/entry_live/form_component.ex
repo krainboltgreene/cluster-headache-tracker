@@ -28,6 +28,9 @@ defmodule CoreWeb.EntryLive.FormComponent do
           label="Context"
           options={["ongoing", "end"]}
         />
+        <picture style="display: flex; justify-content: center;">
+          <img id="severity" src={~p"/images/severity.jpg"} />
+        </picture>
         <.input
           field={{f, :severity}}
           type="select"
@@ -36,11 +39,11 @@ defmodule CoreWeb.EntryLive.FormComponent do
         />
         <picture style="display: flex; justify-content: center;">
           <img id="head" src={~p"/images/head.jpg"} />
-          <% if @entry.x || @entry.y do %>
+          <%= if @entry.x || @entry.y do %>
             <svg id="surface" viewBox="0 0 340 480" width="340px" height="480px" style="position: absolute;" xmlns="http://www.w3.org/2000/svg">
-              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 13} fill="rgba(240, 40, 40, 0.40)" />
-              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 8} fill="rgba(240, 40, 40, 0.60)" />
-              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 5} fill="rgba(240, 40, 40, 0.80)" />
+              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 4 * 2 * 2} fill="rgba(240, 40, 40, 0.40)" />
+              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 4 * 2} fill="rgba(240, 40, 40, 0.60)" />
+              <circle cx={@entry.x} cy={@entry.y} r={@entry.radius * 4} fill="rgba(240, 40, 40, 0.80)" />
             </svg>
           <% end %>
         </picture>
@@ -64,7 +67,7 @@ defmodule CoreWeb.EntryLive.FormComponent do
           label="Radius"
         />
         <.input
-          field={{f, :notes}}
+          field={{f, :note}}
           type="textarea"
           label="Note"
         />
@@ -92,11 +95,12 @@ defmodule CoreWeb.EntryLive.FormComponent do
         %{"entry" => entry_params},
         socket
       ) do
+    dbg(socket.assigns)
     changeset =
       socket.assigns.entry
       |> HealthIssues.change_entry(
         entry_params
-        |> Map.put("cluster_headache", socket.assigns.cluster_headache)
+        |> Map.put("cluster_headache", socket.assigns.entry.cluster_headache || socket.assigns.cluster_headache)
       )
       |> Map.put(:action, :validate)
 
@@ -107,7 +111,7 @@ defmodule CoreWeb.EntryLive.FormComponent do
     save_entry(
       socket,
       socket.assigns.action,
-      entry_params |> Map.put("cluster_headache", socket.assigns.cluster_headache)
+      entry_params |> Map.put("cluster_headache", socket.assigns.entry.cluster_headache || socket.assigns.cluster_headache)
     )
   end
 

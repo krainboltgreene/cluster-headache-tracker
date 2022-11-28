@@ -9,6 +9,9 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
     <div>
       <.header>
         <%= @title %>
+        <:subtitle>
+          Start recording a cluster headache experience.
+        </:subtitle>
       </.header>
 
       <.simple_form
@@ -20,7 +23,7 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
         phx-submit="save"
       >
         <:actions>
-          <.button phx-disable-with="Saving...">Save Cluster Headache</.button>
+          <.button phx-disable-with="Saving...">Start Recording</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -60,6 +63,7 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
+  @impl true
   def handle_event("save", %{"cluster_headache" => cluster_headache_params}, socket) do
     save_cluster_headache(
       socket,
@@ -68,6 +72,7 @@ defmodule CoreWeb.ClusterHeadacheLive.FormComponent do
     )
   end
 
+  @impl true
   def handle_event("save", _params, socket) do
     save_cluster_headache(socket, socket.assigns.action, %{
       "account" => socket.assigns.current_account

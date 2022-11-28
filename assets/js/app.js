@@ -23,7 +23,48 @@ import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
-let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}})
+let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: {
+  TimelineComponent:  {
+    mounted() {
+      console.debug("Timeline mounted");
+      this.handleEvent("load-timeline-data", ({data}) => {
+        console.debug("Timeline loaded", data)
+        c3.generate({
+          bindto: "#timeline",
+          data: {
+            x: "x",
+            xFormat: "%Y-%m-%dT%H:%M:%S",
+            json: data,
+            keys: {
+              x: 'timestamp',
+              value: ['severity']
+            }
+          },
+          axis: {
+            x: {
+              type: "timeseries",
+              localtime: false,
+              label: "Time",
+              tick: {
+                rotate: 34,
+                multiline: true,
+                format: "%H:%M",
+                max: new Date()
+              }
+            },
+            y: {
+              label: "Severity",
+              max: 10,
+              min: 0,
+              padding: {top: 0, bottom: 0}
+            }
+          }
+      });
+      });
+      this.pushEventTo("#timeline", "request-timeline-data", {});
+    }
+  }
+}})
 
 // Show progress bar on live navigation and form submits
 topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
@@ -38,4 +79,3 @@ liveSocket.connect()
 // >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
-
