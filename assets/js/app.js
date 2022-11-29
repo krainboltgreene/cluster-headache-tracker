@@ -47,7 +47,24 @@ let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToke
             datasets
           },
           options: {
-            spanGaps: 1000 * 60 * 60 * 24 * 2, // 2 days
+            spanGaps: 1000 * 60 * 60 * 24, // 1 days
+            plugins: {
+              zoom: {
+                zoom: {
+                  wheel: {
+                    enabled: true,
+                  },
+                  pinch: {
+                    enabled: true
+                  },
+                  mode: 'x'
+                },
+                pan: {
+                  enabled: true,
+                  mode: 'x'
+                }
+              }
+            },
             scales: {
               y: {
                 min: 0,
