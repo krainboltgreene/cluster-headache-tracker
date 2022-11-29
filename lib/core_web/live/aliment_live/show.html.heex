@@ -1,10 +1,7 @@
 <.header>
   Started <.datetime_timestamp value={@aliment.inserted_at} />
   <:actions>
-    <.link
-      patch={~p"/aliments/#{@aliment}/show/edit"}
-      phx-click={JS.push_focus()}
-    >
+    <.link patch={~p"/aliments/#{@aliment}/show/edit"} phx-click={JS.push_focus()}>
       <.button>Edit Aliment</.button>
     </.link>
   </:actions>

@@ -42,9 +42,7 @@ defmodule CoreWeb.AlimentLive.FormComponent do
   def handle_event("validate", %{"aliment" => aliment_params}, socket) do
     changeset =
       socket.assigns.aliment
-      |> HealthIssues.change_aliment(
-        aliment_params
-      )
+      |> HealthIssues.change_aliment(aliment_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}

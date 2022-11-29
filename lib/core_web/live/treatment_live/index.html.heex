@@ -7,11 +7,7 @@
   </:actions>
 </.header>
 
-<.live_component
-  module={CoreWeb.TimelineComponent}
-  id="timeline"
-  treatments={@treatments}
-/>
+<.live_component module={CoreWeb.TimelineComponent} id="timeline" treatments={@treatments} />
 
 <.table id="treatments" rows={@treatments} row_click={&JS.navigate(~p"/treatments/#{&1}")}>
   <:col :let={treatment} label="Time"><.datetime_timestamp value={treatment.inserted_at} /></:col>

@@ -56,9 +56,7 @@ defmodule CoreWeb.TreatmentLive.FormComponent do
       ) do
     changeset =
       socket.assigns.treatment
-      |> HealthIssues.change_treatment(
-        treatment_params
-      )
+      |> HealthIssues.change_treatment(treatment_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}

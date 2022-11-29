@@ -44,9 +44,7 @@ defmodule CoreWeb.MedicationLive.FormComponent do
   def handle_event("validate", %{"medication" => medication_params}, socket) do
     changeset =
       socket.assigns.medication
-      |> Healthcares.change_medication(
-        medication_params
-      )
+      |> Healthcares.change_medication(medication_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}

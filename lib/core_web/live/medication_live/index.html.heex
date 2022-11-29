@@ -7,11 +7,7 @@
   </:actions>
 </.header>
 
-<.table
-  id="medications"
-  rows={@medications}
-  row_click={&JS.navigate(~p"/medications/#{&1}")}
->
+<.table id="medications" rows={@medications} row_click={&JS.navigate(~p"/medications/#{&1}")}>
   <:col :let={medication} label="Name">
     <%= medication.name %>
   </:col>
@@ -30,10 +26,7 @@
     <.link patch={~p"/medications/#{medication}/edit"}>Edit</.link>
   </:action>
   <:action :let={medication}>
-    <.link
-      phx-click={JS.push("delete", value: %{id: medication.id})}
-      data-confirm="Are you sure?"
-    >
+    <.link phx-click={JS.push("delete", value: %{id: medication.id})} data-confirm="Are you sure?">
       Delete
     </.link>
   </:action>

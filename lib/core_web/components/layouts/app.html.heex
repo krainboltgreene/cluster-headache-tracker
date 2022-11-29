@@ -1,6 +1,8 @@
 <nav>
   <ul style="display: grid; align-items: center; grid-auto-columns: max-content; grid-auto-flow: column; column-gap: 10px; margin: 10px">
-    <li><.link href={~p"/"}>Health Issue Tracker</.link></li>
+    <li>
+      <.link href={~p"/"}>Health Issue Tracker</.link>
+    </li>
     <%= if @current_account do %>
       <li>
         <.link href={~p"/entries"}>Entries</.link>

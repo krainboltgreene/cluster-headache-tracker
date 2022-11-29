@@ -98,12 +98,9 @@ defmodule CoreWeb.EntryLive.FormComponent do
         %{"entry" => entry_params},
         socket
       ) do
-
     changeset =
       socket.assigns.entry
-      |> HealthIssues.change_entry(
-        entry_params
-      )
+      |> HealthIssues.change_entry(entry_params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}

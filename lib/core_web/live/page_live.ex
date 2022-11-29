@@ -45,7 +45,6 @@ defmodule CoreWeb.PageLive do
         </ul>
       <% end %>
     </div>
-
     """
   end
 
@@ -63,6 +62,9 @@ defmodule CoreWeb.PageLive do
     socket
     |> assign(:page_title, "Home")
     |> assign(:entries, Core.HealthIssues.list_entries() |> Core.Repo.preload([:aliment]))
-    |> assign(:treatments, Core.HealthIssues.list_treatments() |> Core.Repo.preload([:medication]))
+    |> assign(
+      :treatments,
+      Core.HealthIssues.list_treatments() |> Core.Repo.preload([:medication])
+    )
   end
 end
