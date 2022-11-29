@@ -21,45 +21,63 @@ import "phoenix_html"
 import {Socket} from "phoenix"
 import {LiveSocket} from "phoenix_live_view"
 import topbar from "../vendor/topbar"
-
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToken}, hooks: {
+  HeadComponent: {
+    mounted() {
+      console.debug("Head mounted");
+      document.getElementById('surface').addEventListener("click", function clickRecordCoordinate({offsetX, offsetY}) {
+        console.debug("Recorded click");
+        document.getElementById('entry-form_x').value = offsetX;
+        document.getElementById('entry-form_y').value = offsetY;
+        document.getElementById('entry-form_x').dispatchEvent(new Event('change', {bubbles: true}));
+        document.getElementById('entry-form_y').dispatchEvent(new Event('change', {bubbles: true}));
+      });
+    }
+  },
   TimelineComponent:  {
     mounted() {
       console.debug("Timeline mounted");
-      this.handleEvent("load-timeline-data", ({data}) => {
-        console.debug("Timeline loaded", data)
-        c3.generate({
-          bindto: "#timeline",
+      this.handleEvent("load-timeline-data", ({datasets, labels}) => {
+        console.debug("Timeline loaded", datasets)
+        new Chart(this.el, {
+          type: "line",
           data: {
-            x: "x",
-            xFormat: "%Y-%m-%dT%H:%M:%S",
-            json: data,
-            keys: {
-              x: 'timestamp',
-              value: ['severity']
-            }
+            labels,
+            datasets
           },
-          axis: {
-            x: {
-              type: "timeseries",
-              localtime: false,
-              label: "Time",
-              tick: {
-                rotate: 34,
-                multiline: true,
-                format: "%H:%M",
-                max: new Date()
+          options: {
+            spanGaps: 1000 * 60 * 60 * 24 * 2, // 2 days
+            scales: {
+              y: {
+                min: 0,
+                max: 10
+              },
+              x: {
+                type: 'time',
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Date'
+                },
+                ticks: {
+                  autoSkip: false,
+                  maxRotation: 0,
+                  major: {
+                    enabled: true
+                  },
+                  font: function(context) {
+                    if (context.tick && context.tick.major) {
+                      return {
+                        weight: 'bold',
+                      };
+                    }
+                  }
+                }
               }
-            },
-            y: {
-              label: "Severity",
-              max: 10,
-              min: 0,
-              padding: {top: 0, bottom: 0}
             }
           }
-      });
+        });
       });
       this.pushEventTo("#timeline", "request-timeline-data", {});
     }

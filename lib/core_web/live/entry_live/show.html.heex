@@ -9,7 +9,7 @@
 </.header>
 
 <.list>
-  <:item title="Context"><%= @entry.context %></:item>
+  <:item title="Aliment"><%= @entry.aliment.name %></:item>
   <:item title="Severity"><%= @entry.severity %></:item>
   <:item title="Location">
     <picture style="display: flex; justify-content: center;">
@@ -41,7 +41,7 @@
   <:item title="Note"><%= @entry.note %></:item>
 </.list>
 
-<.back navigate={~p"/cluster_headaches/#{@entry.cluster_headache}"}>
+<.back navigate={~p"/"}>
   Back to cluster headache
 </.back>
 

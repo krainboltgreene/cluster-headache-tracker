@@ -80,15 +80,17 @@ defmodule CoreWeb.Router do
       on_mount: [{CoreWeb.AccountAuth, :mount_current_account}] do
       live "/accounts/confirm/:token", AccountConfirmationLive, :edit
       live "/accounts/confirm", AccountConfirmationInstructionsLive, :new
-      live "/cluster_headaches", ClusterHeadacheLive.Index, :index
-      live "/cluster_headaches/new", ClusterHeadacheLive.Index, :new
-      live "/cluster_headaches/:id/edit", ClusterHeadacheLive.Index, :edit
-      live "/cluster_headaches/:id", ClusterHeadacheLive.Show, :show
-      live "/cluster_headaches/:id/show/edit", ClusterHeadacheLive.Show, :edit
+      live "/aliments", AlimentLive.Index, :index
+      live "/aliments/new", AlimentLive.Index, :new
+      live "/aliments/:id/edit", AlimentLive.Index, :edit
+      live "/aliments/:id", AlimentLive.Show, :show
+      live "/aliments/:id/show/edit", AlimentLive.Show, :edit
+      live "/entries", EntryLive.Index, :index
       live "/entries/new", EntryLive.Index, :new
       live "/entries/:id/edit", EntryLive.Index, :edit
       live "/entries/:id", EntryLive.Show, :show
       live "/entries/:id/show/edit", EntryLive.Show, :edit
+      live "/treatments", TreatmentLive.Index, :index
       live "/treatments/new", TreatmentLive.Index, :new
       live "/treatments/:id/edit", TreatmentLive.Index, :edit
       live "/treatments/:id", TreatmentLive.Show, :show

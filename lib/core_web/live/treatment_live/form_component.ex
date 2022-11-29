@@ -58,10 +58,6 @@ defmodule CoreWeb.TreatmentLive.FormComponent do
       socket.assigns.treatment
       |> HealthIssues.change_treatment(
         treatment_params
-        |> Map.put(
-          "cluster_headache",
-          socket.assigns.treatment.cluster_headache || socket.assigns.cluster_headache
-        )
       )
       |> Map.put(:action, :validate)
 
@@ -73,10 +69,6 @@ defmodule CoreWeb.TreatmentLive.FormComponent do
       socket,
       socket.assigns.action,
       treatment_params
-      |> Map.put(
-        "cluster_headache",
-        socket.assigns.treatment.cluster_headache || socket.assigns.cluster_headache
-      )
     )
   end
 

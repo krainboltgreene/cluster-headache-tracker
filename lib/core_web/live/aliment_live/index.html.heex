@@ -1,0 +1,54 @@
+<.live_component
+  module={CoreWeb.AlimentLive.TimelineComponent}
+  id="timeline"
+  aliments={@aliments}
+/>
+
+<.header>
+  Listing Aliments
+  <:actions>
+    <.link patch={~p"/aliments/new"}>
+      <.button>New Aliment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="aliments"
+  rows={@aliments}
+  row_click={&JS.navigate(~p"/aliments/#{&1}")}
+>
+  <:col :let={aliment} label="Name">
+    <%= aliment.name %>
+  </:col>
+  <:action :let={aliment}>
+    <div class="sr-only">
+      <.link navigate={~p"/aliments/#{aliment}"}>Show</.link>
+    </div>
+    <.link patch={~p"/aliments/#{aliment}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={aliment}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: aliment.id})}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="aliment-modal"
+  show
+  on_cancel={JS.navigate(~p"/aliments")}
+>
+  <.live_component
+    module={CoreWeb.AlimentLive.FormComponent}
+    id={@aliment.id || :new}
+    title={@page_title}
+    action={@live_action}
+    aliment={@aliment}
+    navigate={~p"/aliments"}
+  />
+</.modal>

@@ -8,7 +8,6 @@ defmodule Core.HealthIssues.Treatment do
   schema "treatments" do
     field :dosage, :string
     belongs_to :medication, Core.Healthcares.Medication
-    belongs_to :cluster_headache, Core.HealthIssues.ClusterHeadache
 
     timestamps()
   end
@@ -17,9 +16,7 @@ defmodule Core.HealthIssues.Treatment do
   def changeset(treatment, attrs) do
     treatment
     |> cast(attrs, [:dosage, :medication_id])
-    |> put_assoc(:cluster_headache, attrs["cluster_headache"])
-    |> validate_required([:dosage, :medication_id, :cluster_headache])
-    |> foreign_key_constraint(:cluster_headache_id)
+    |> validate_required([:dosage, :medication_id])
     |> foreign_key_constraint(:medication_id)
   end
 end

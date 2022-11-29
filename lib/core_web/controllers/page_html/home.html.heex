@@ -8,7 +8,13 @@
   <%= if @current_account do %>
     <ul>
       <li>
-        <.link href={~p"/cluster_headaches"}>Cluster Headaches</.link>
+        <.link href={~p"/entries"}>Entries</.link>
+      </li>
+      <li>
+        <.link href={~p"/aliments"}>Aliments</.link>
+      </li>
+      <li>
+        <.link href={~p"/treatments"}>Treatments</.link>
       </li>
     </ul>
   <% else %>

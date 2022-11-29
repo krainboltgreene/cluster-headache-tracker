@@ -1,4 +1,4 @@
-defmodule CoreWeb.ClusterHeadacheLive.Show do
+defmodule CoreWeb.AlimentLive.Show do
   use CoreWeb, :live_view
 
   alias Core.HealthIssues
@@ -14,12 +14,12 @@ defmodule CoreWeb.ClusterHeadacheLive.Show do
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(
-       :cluster_headache,
-       HealthIssues.get_cluster_headache!(id)
-       |> Core.Repo.preload([:account, :entries, treatments: [:medication]])
+       :aliment,
+       HealthIssues.get_aliment!(id)
+       |> Core.Repo.preload([:entries])
      )}
   end
 
-  defp page_title(:show), do: "Show Cluster Headache"
-  defp page_title(:edit), do: "Edit Cluster Headache"
+  defp page_title(:show), do: "Show Aliment"
+  defp page_title(:edit), do: "Edit Aliment"
 end

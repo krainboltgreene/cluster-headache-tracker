@@ -13,7 +13,7 @@ defmodule CoreWeb.EntryLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:entry, HealthIssues.get_entry!(id) |> Core.Repo.preload([:cluster_headache]))}
+     |> assign(:entry, HealthIssues.get_entry!(id) |> Core.Repo.preload([:aliment]))}
   end
 
   defp page_title(:show), do: "Show Entry"

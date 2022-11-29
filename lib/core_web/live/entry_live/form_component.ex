@@ -22,7 +22,6 @@ defmodule CoreWeb.EntryLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={{f, :context}} type="select" label="Context" options={["ongoing", "end"]} />
         <picture style="display: flex; justify-content: center;">
           <img id="severity" src={~p"/images/severity.jpg"} />
         </picture>
@@ -33,43 +32,44 @@ defmodule CoreWeb.EntryLive.FormComponent do
           options={0..10 |> Enum.map(&Integer.to_string/1)}
         />
         <picture style="display: flex; justify-content: center;">
-          <img id="head" src={~p"/images/head.jpg"} />
-          <%= if @entry.x || @entry.y do %>
-            <svg
-              id="surface"
-              viewBox="0 0 340 480"
-              width="340px"
-              height="480px"
-              style="position: absolute;"
-              xmlns="http://www.w3.org/2000/svg"
-            >
+          <img src={~p"/images/head.jpg"} />
+          <svg
+            phx-hook="HeadComponent"
+            id="surface"
+            viewBox="0 0 340 480"
+            width="340px"
+            height="480px"
+            style="position: absolute;"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <%= if @entry.x || @changeset.changes[:x] do %>
               <circle
-                cx={@entry.x}
-                cy={@entry.y}
+                cx={@entry.x || @changeset.changes[:x]}
+                cy={@entry.y || @changeset.changes[:y]}
                 r={@entry.radius * 4 * 2 * 2}
                 fill="rgba(240, 40, 40, 0.40)"
               />
               <circle
-                cx={@entry.x}
-                cy={@entry.y}
+                cx={@entry.x || @changeset.changes[:x]}
+                cy={@entry.y || @changeset.changes[:y]}
                 r={@entry.radius * 4 * 2}
                 fill="rgba(240, 40, 40, 0.60)"
               />
               <circle
-                cx={@entry.x}
-                cy={@entry.y}
+                cx={@entry.x || @changeset.changes[:x]}
+                cy={@entry.y || @changeset.changes[:y]}
                 r={@entry.radius * 4}
                 fill="rgba(240, 40, 40, 0.80)"
               />
-            </svg>
-          <% end %>
+            <% end %>
+          </svg>
         </picture>
-        <script>
-          document.getElementById('head').addEventListener("click", function clickRecordCoordinate({offsetX, offsetY}) {
-            document.getElementById('entry-form_x').value = offsetX;
-            document.getElementById('entry-form_y').value = offsetY;
-          });
-        </script>
+        <.input
+          field={{f, :aliment_id}}
+          type="select"
+          label="Aliment"
+          options={@aliments |> Enum.map(&{&1.name, &1.id})}
+        />
         <.input field={{f, :x}} type="hidden" />
         <.input field={{f, :y}} type="hidden" />
         <.input field={{f, :radius}} type="number" label="Radius" />
@@ -98,16 +98,11 @@ defmodule CoreWeb.EntryLive.FormComponent do
         %{"entry" => entry_params},
         socket
       ) do
-    dbg(socket.assigns)
 
     changeset =
       socket.assigns.entry
       |> HealthIssues.change_entry(
         entry_params
-        |> Map.put(
-          "cluster_headache",
-          socket.assigns.entry.cluster_headache || socket.assigns.cluster_headache
-        )
       )
       |> Map.put(:action, :validate)
 
@@ -119,10 +114,6 @@ defmodule CoreWeb.EntryLive.FormComponent do
       socket,
       socket.assigns.action,
       entry_params
-      |> Map.put(
-        "cluster_headache",
-        socket.assigns.entry.cluster_headache || socket.assigns.cluster_headache
-      )
     )
   end
 

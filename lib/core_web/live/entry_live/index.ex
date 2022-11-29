@@ -5,8 +5,8 @@ defmodule CoreWeb.EntryLive.Index do
   alias Core.HealthIssues.Entry
 
   @impl true
-  def mount(%{"cluster_headache_id" => cluster_headache_id}, _session, socket) do
-    {:ok, assign(socket, :entries, list_entries(cluster_headache_id))}
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, :entries, list_entries())}
   end
 
   @impl true
@@ -15,19 +15,19 @@ defmodule CoreWeb.EntryLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-    record = HealthIssues.get_entry!(id) |> Core.Repo.preload([:cluster_headache])
+    record = HealthIssues.get_entry!(id) |> Core.Repo.preload([:aliment])
 
     socket
     |> assign(:page_title, "Edit Entry")
-    |> assign(:entry, record)
-    |> assign(:cluster_headache, record.cluster_headache)
+    |> assign(:entry, record |> Core.Repo.preload([:aliment]))
+    |> assign(:aliments, HealthIssues.list_aliments())
   end
 
-  defp apply_action(socket, :new, %{"cluster_headache_id" => cluster_headache_id}) do
+  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Entry")
-    |> assign(:entry, %Entry{} |> Core.Repo.preload([:cluster_headache]))
-    |> assign(:cluster_headache, HealthIssues.get_cluster_headache!(cluster_headache_id))
+    |> assign(:entry, %Entry{} |> Core.Repo.preload([:aliment]))
+    |> assign(:aliments, HealthIssues.list_aliments())
   end
 
   defp apply_action(socket, :index, _params) do
@@ -37,14 +37,14 @@ defmodule CoreWeb.EntryLive.Index do
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id, "cluster_headache_id" => cluster_headache_id}, socket) do
+  def handle_event("delete", %{"id" => id}, socket) do
     entry = HealthIssues.get_entry!(id)
     {:ok, _} = HealthIssues.delete_entry(entry)
 
-    {:noreply, assign(socket, :entries, list_entries(cluster_headache_id))}
+    {:noreply, assign(socket, :entries, list_entries())}
   end
 
-  defp list_entries(cluster_headache_id) do
-    HealthIssues.list_entries(cluster_headache_id) |> Core.Repo.preload([:cluster_headache])
+  defp list_entries() do
+    HealthIssues.list_entries() |> Core.Repo.preload([:aliment])
   end
 end
