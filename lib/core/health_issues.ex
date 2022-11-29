@@ -118,7 +118,11 @@ defmodule Core.HealthIssues do
 
   """
   def list_entries() do
-    Repo.all(Entry)
+    from(
+      Entry,
+      order_by: [desc: :inserted_at]
+    )
+    |> Repo.all()
   end
 
   @doc """
@@ -217,7 +221,11 @@ defmodule Core.HealthIssues do
 
   """
   def list_treatments() do
-    Repo.all(Treatment)
+    from(
+      Treatment,
+      order_by: [desc: :inserted_at]
+    )
+    |> Repo.all()
   end
 
   @doc """
