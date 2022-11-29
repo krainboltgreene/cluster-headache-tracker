@@ -4,7 +4,7 @@ defmodule CoreWeb.PageLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
+    <div class="mx-auto">
       <.header class="text-center">
         HIT
         <:subtitle>

@@ -29,33 +29,40 @@ defmodule CoreWeb.TimelineComponent do
           end,
           if socket.assigns[:treatments] do
             socket.assigns.treatments
+            |> Enum.group_by(fn treatment -> treatment.medication end)
             |> Enum.with_index(1)
-            |> Enum.map(fn {treatment, index} ->
+            |> Enum.map(fn {{medication, treatments}, index} ->
               %{
                 type:
-                  if treatment.medication.cooldown > 0 do
+                  if medication.cooldown > 0 do
                     "line"
                   else
-                    "bar"
+                    "scatter"
                   end,
-                label: treatment.medication.name,
-                data:
-                  [
-                    %{x: timestamp(treatment.inserted_at), y: index},
-                    if treatment.medication.cooldown > 0 do
+                label: medication.name,
+                data: if medication.cooldown > 0 do
+                  treatments
+                  |> Enum.flat_map(fn treatment ->
+                    [
+                      %{x: timestamp(treatment.inserted_at), y: index},
                       %{
                         x:
                           timestamp(
                             Timex.add(
                               treatment.inserted_at,
-                              Timex.Duration.from_hours(treatment.medication.cooldown)
+                              Timex.Duration.from_hours(medication.cooldown)
                             )
                           ),
                         y: index
                       }
-                    end
-                  ]
-                  |> Enum.reject(&is_nil/1)
+                    ]
+                  end)
+                else
+                  treatments
+                  |> Enum.map(fn treatment ->
+                    %{x: timestamp(treatment.inserted_at), y: index}
+                  end)
+                end
               }
             end)
           else

@@ -2,6 +2,7 @@ defmodule CoreWeb.Router do
   use CoreWeb, :router
 
   import CoreWeb.AccountAuth
+  import Redirect
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -40,6 +41,8 @@ defmodule CoreWeb.Router do
   end
 
   ## Authentication routes
+
+  redirect "/cluter_headaches", "/entries", :permanent
 
   scope "/", CoreWeb do
     pipe_through [:browser, :redirect_if_account_is_authenticated]
