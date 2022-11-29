@@ -1,0 +1,56 @@
+<.header>
+  Listing Medications
+  <:actions>
+    <.link patch={~p"/medications/new"}>
+      <.button>New Medication</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="medications"
+  rows={@medications}
+  row_click={&JS.navigate(~p"/medications/#{&1}")}
+>
+  <:col :let={medication} label="Name">
+    <%= medication.name %>
+  </:col>
+  <:col :let={medication} label="Dosage">
+    <%= medication.dosage %>
+  </:col>
+  <:col :let={medication} label="Cooldown">
+    <%= if medication.cooldown > 0 do %>
+      <%= medication.cooldown %>h
+    <% end %>
+  </:col>
+  <:action :let={medication}>
+    <div class="sr-only">
+      <.link navigate={~p"/medications/#{medication}"}>Show</.link>
+    </div>
+    <.link patch={~p"/medications/#{medication}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={medication}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: medication.id})}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal
+  :if={@live_action in [:new, :edit]}
+  id="medication-modal"
+  show
+  on_cancel={JS.navigate(~p"/medications")}
+>
+  <.live_component
+    module={CoreWeb.MedicationLive.FormComponent}
+    id={@medication.id || :new}
+    title={@page_title}
+    action={@live_action}
+    medication={@medication}
+    navigate={~p"/medications"}
+  />
+</.modal>

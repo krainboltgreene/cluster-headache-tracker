@@ -1,7 +1,7 @@
-defmodule CoreWeb.AlimentLive.FormComponent do
+defmodule CoreWeb.MedicationLive.FormComponent do
   use CoreWeb, :live_component
 
-  alias Core.HealthIssues
+  alias Core.Healthcares
 
   @impl true
   def render(assigns) do
@@ -14,14 +14,16 @@ defmodule CoreWeb.AlimentLive.FormComponent do
       <.simple_form
         :let={f}
         for={@changeset}
-        id="aliment-form"
+        id="medication-form"
         phx-target={@myself}
         phx-change="validate"
         phx-submit="save"
       >
         <.input field={{f, :name}} type="text" label="Name" />
+        <.input field={{f, :dosage}} type="text" label="Dosage" />
+        <.input field={{f, :cooldown}} type="number" label="Cooldown (Hours)" />
         <:actions>
-          <.button phx-disable-with="Saving...">Save Aliment</.button>
+          <.button phx-disable-with="Saving...">Save Medication</.button>
         </:actions>
       </.simple_form>
     </div>
@@ -29,8 +31,8 @@ defmodule CoreWeb.AlimentLive.FormComponent do
   end
 
   @impl true
-  def update(%{aliment: aliment} = assigns, socket) do
-    changeset = HealthIssues.change_aliment(aliment)
+  def update(%{medication: medication} = assigns, socket) do
+    changeset = Healthcares.change_medication(medication)
 
     {:ok,
      socket
@@ -39,11 +41,11 @@ defmodule CoreWeb.AlimentLive.FormComponent do
   end
 
   @impl true
-  def handle_event("validate", %{"aliment" => aliment_params}, socket) do
+  def handle_event("validate", %{"medication" => medication_params}, socket) do
     changeset =
-      socket.assigns.aliment
-      |> HealthIssues.change_aliment(
-        aliment_params
+      socket.assigns.medication
+      |> Healthcares.change_medication(
+        medication_params
       )
       |> Map.put(:action, :validate)
 
@@ -53,36 +55,36 @@ defmodule CoreWeb.AlimentLive.FormComponent do
   @impl true
   def handle_event("validate", params, socket) do
     changeset =
-      socket.assigns.aliment
-      |> HealthIssues.change_aliment(params)
+      socket.assigns.medication
+      |> Healthcares.change_medication(params)
       |> Map.put(:action, :validate)
 
     {:noreply, assign(socket, :changeset, changeset)}
   end
 
   @impl true
-  def handle_event("save", %{"aliment" => aliment_params}, socket) do
-    save_aliment(
+  def handle_event("save", %{"medication" => medication_params}, socket) do
+    save_medication(
       socket,
       socket.assigns.action,
-      aliment_params
+      medication_params
     )
   end
 
   @impl true
   def handle_event("save", params, socket) do
-    save_aliment(socket, socket.assigns.action, params)
+    save_medication(socket, socket.assigns.action, params)
   end
 
-  defp save_aliment(socket, :edit, aliment_params) do
-    case HealthIssues.update_aliment(
-           socket.assigns.aliment,
-           aliment_params
+  defp save_medication(socket, :edit, medication_params) do
+    case Healthcares.update_medication(
+           socket.assigns.medication,
+           medication_params
          ) do
-      {:ok, _aliment} ->
+      {:ok, _medication} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Aliment updated successfully")
+         |> put_flash(:info, "Medication updated successfully")
          |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
@@ -90,12 +92,12 @@ defmodule CoreWeb.AlimentLive.FormComponent do
     end
   end
 
-  defp save_aliment(socket, :new, aliment_params) do
-    case HealthIssues.create_aliment(aliment_params) do
-      {:ok, _aliment} ->
+  defp save_medication(socket, :new, medication_params) do
+    case Healthcares.create_medication(medication_params) do
+      {:ok, _medication} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Aliment created successfully")
+         |> put_flash(:info, "Medication created successfully")
          |> push_navigate(to: socket.assigns.navigate)}
 
       {:error, %Ecto.Changeset{} = changeset} ->

@@ -37,7 +37,7 @@ defmodule CoreWeb.CoreComponents do
     <time time={@value}>
       <%= Timex.format!(
         Timex.Timezone.convert(@value, Timex.Timezone.get("America/Los_Angeles")),
-        "{YYYY}/{M}/{D} {h12}:{m}{am} ({WDshort})"
+        "{M}/{D} {h12}:{m}{am} ({WDshort})"
       ) %>
     </time>
     """

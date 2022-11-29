@@ -10,10 +10,11 @@
 <.live_component
   module={CoreWeb.TimelineComponent}
   id="timeline"
-  items={@treatments}
+  treatments={@treatments}
 />
 
 <.table id="treatments" rows={@treatments} row_click={&JS.navigate(~p"/treatments/#{&1}")}>
+  <:col :let={treatment} label="Time"><.datetime_timestamp value={treatment.inserted_at} /></:col>
   <:col :let={treatment} label="Medication"><%= treatment.medication.name %></:col>
   <:col :let={treatment} label="Dosage"><%= treatment.dosage %></:col>
   <:action :let={treatment}>

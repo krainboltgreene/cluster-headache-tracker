@@ -11,6 +11,7 @@
 </.header>
 
 <.list>
+  <:item title="Name"><%= @aliment.name %></:item>
   <:item title="Entries">
     <ul>
       <%= for entry <- @aliment.entries do %>
@@ -24,7 +25,7 @@
   </:item>
 </.list>
 
-<.back navigate={~p"/aliments"}>Back to cluster headaches</.back>
+<.back navigate={~p"/aliments"}>Back</.back>
 
 <.modal
   :if={@live_action == :edit}

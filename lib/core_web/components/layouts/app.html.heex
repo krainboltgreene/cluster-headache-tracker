@@ -1,6 +1,6 @@
 <nav>
   <ul style="display: grid; align-items: center; grid-auto-columns: max-content; grid-auto-flow: column; column-gap: 10px; margin: 10px">
-    <li>Health Issue Tracker</li>
+    <li><.link href={~p"/"}>Health Issue Tracker</.link></li>
     <%= if @current_account do %>
       <li>
         <.link href={~p"/entries"}>Entries</.link>
@@ -10,6 +10,9 @@
       </li>
       <li>
         <.link href={~p"/treatments"}>Treatments</.link>
+      </li>
+      <li>
+        <.link href={~p"/medications"}>Medications</.link>
       </li>
       <li>
         Logged in as <%= @current_account.email %>

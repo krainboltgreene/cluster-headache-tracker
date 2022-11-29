@@ -17,12 +17,6 @@ defmodule CoreWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", CoreWeb do
-    pipe_through :browser
-
-    get "/", PageController, :home
-  end
-
   # Other scopes may use custom stacks.
   # scope "/api", CoreWeb do
   #   pipe_through :api
@@ -78,6 +72,7 @@ defmodule CoreWeb.Router do
 
     live_session :current_account,
       on_mount: [{CoreWeb.AccountAuth, :mount_current_account}] do
+      live "/", PageLive, :home
       live "/accounts/confirm/:token", AccountConfirmationLive, :edit
       live "/accounts/confirm", AccountConfirmationInstructionsLive, :new
       live "/aliments", AlimentLive.Index, :index
@@ -85,6 +80,11 @@ defmodule CoreWeb.Router do
       live "/aliments/:id/edit", AlimentLive.Index, :edit
       live "/aliments/:id", AlimentLive.Show, :show
       live "/aliments/:id/show/edit", AlimentLive.Show, :edit
+      live "/medications", MedicationLive.Index, :index
+      live "/medications/new", MedicationLive.Index, :new
+      live "/medications/:id/edit", MedicationLive.Index, :edit
+      live "/medications/:id", MedicationLive.Show, :show
+      live "/medications/:id/show/edit", MedicationLive.Show, :edit
       live "/entries", EntryLive.Index, :index
       live "/entries/new", EntryLive.Index, :new
       live "/entries/:id/edit", EntryLive.Index, :edit
