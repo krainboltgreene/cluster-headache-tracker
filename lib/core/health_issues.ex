@@ -6,104 +6,104 @@ defmodule Core.HealthIssues do
   import Ecto.Query, warn: false
   alias Core.Repo
 
-  alias Core.HealthIssues.ClusterHeadache
+  alias Core.HealthIssues.Aliment
 
   @doc """
-  Returns the list of cluster_headaches.
+  Returns the list of aliments.
 
   ## Examples
 
-      iex> list_cluster_headaches()
-      [%ClusterHeadache{}, ...]
+      iex> list_aliments()
+      [%Aliment{}, ...]
 
   """
-  def list_cluster_headaches do
+  def list_aliments do
     from(
-      cluster_headache in ClusterHeadache,
+      aliment in Aliment,
       order_by: [desc: :inserted_at]
     )
     |> Repo.all()
   end
 
   @doc """
-  Gets a single cluster_headache.
+  Gets a single aliment.
 
   Raises `Ecto.NoResultsError` if the Cluster Headache does not exist.
 
   ## Examples
 
-      iex> get_cluster_headache!(123)
-      %ClusterHeadache{}
+      iex> get_aliment!(123)
+      %Aliment{}
 
-      iex> get_cluster_headache!(456)
+      iex> get_aliment!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_cluster_headache!(id), do: Repo.get!(ClusterHeadache, id)
+  def get_aliment!(id), do: Repo.get!(Aliment, id)
 
   @doc """
-  Creates a cluster_headache.
+  Creates a aliment.
 
   ## Examples
 
-      iex> create_cluster_headache(%{field: value})
-      {:ok, %ClusterHeadache{}}
+      iex> create_aliment(%{field: value})
+      {:ok, %Aliment{}}
 
-      iex> create_cluster_headache(%{field: bad_value})
+      iex> create_aliment(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_cluster_headache(attrs \\ %{}) do
-    %ClusterHeadache{}
-    |> ClusterHeadache.changeset(attrs)
+  def create_aliment(attrs \\ %{}) do
+    %Aliment{}
+    |> Aliment.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a cluster_headache.
+  Updates a aliment.
 
   ## Examples
 
-      iex> update_cluster_headache(cluster_headache, %{field: new_value})
-      {:ok, %ClusterHeadache{}}
+      iex> update_aliment(aliment, %{field: new_value})
+      {:ok, %Aliment{}}
 
-      iex> update_cluster_headache(cluster_headache, %{field: bad_value})
+      iex> update_aliment(aliment, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_cluster_headache(%ClusterHeadache{} = cluster_headache, attrs) do
-    cluster_headache
-    |> ClusterHeadache.changeset(attrs)
+  def update_aliment(%Aliment{} = aliment, attrs) do
+    aliment
+    |> Aliment.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a cluster_headache.
+  Deletes a aliment.
 
   ## Examples
 
-      iex> delete_cluster_headache(cluster_headache)
-      {:ok, %ClusterHeadache{}}
+      iex> delete_aliment(aliment)
+      {:ok, %Aliment{}}
 
-      iex> delete_cluster_headache(cluster_headache)
+      iex> delete_aliment(aliment)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_cluster_headache(%ClusterHeadache{} = cluster_headache) do
-    Repo.delete(cluster_headache)
+  def delete_aliment(%Aliment{} = aliment) do
+    Repo.delete(aliment)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking cluster_headache changes.
+  Returns an `%Ecto.Changeset{}` for tracking aliment changes.
 
   ## Examples
 
-      iex> change_cluster_headache(cluster_headache)
-      %Ecto.Changeset{data: %ClusterHeadache{}}
+      iex> change_aliment(aliment)
+      %Ecto.Changeset{data: %Aliment{}}
 
   """
-  def change_cluster_headache(%ClusterHeadache{} = cluster_headache, attrs \\ %{}) do
-    ClusterHeadache.changeset(cluster_headache, attrs)
+  def change_aliment(%Aliment{} = aliment, attrs \\ %{}) do
+    Aliment.changeset(aliment, attrs)
   end
 
   alias Core.HealthIssues.Entry
@@ -117,12 +117,8 @@ defmodule Core.HealthIssues do
       [%Entry{}, ...]
 
   """
-  def list_entries(cluster_headache_id) do
-    from(
-      entry in Entry,
-      where: entry.cluster_headache_id == ^cluster_headache_id
-    )
-    |> Repo.all()
+  def list_entries() do
+    Repo.all(Entry)
   end
 
   @doc """
@@ -209,8 +205,6 @@ defmodule Core.HealthIssues do
     Entry.changeset(entry, attrs)
   end
 
-
-
   alias Core.HealthIssues.Treatment
 
   @doc """
@@ -222,12 +216,8 @@ defmodule Core.HealthIssues do
       [%Treatment{}, ...]
 
   """
-  def list_treatments(cluster_headache_id) do
-    from(
-      treatment in Treatment,
-      where: treatment.cluster_headache_id == ^cluster_headache_id
-    )
-    |> Repo.all()
+  def list_treatments() do
+    Repo.all(Treatment)
   end
 
   @doc """

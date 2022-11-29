@@ -6,13 +6,13 @@ defmodule Core.HealthIssues.Entry do
   @foreign_key_type :binary_id
   @timestamps_opts [type: :utc_datetime]
   schema "entries" do
-    field :context, :string
+    field :context, :string, default: "ongoing"
     field :severity, :integer
     field :radius, :integer, default: 2
     field :x, :integer
     field :y, :integer
     field :note, :string
-    belongs_to :cluster_headache, Core.HealthIssues.ClusterHeadache, on_replace: :update
+    belongs_to :aliment, Core.HealthIssues.Aliment, on_replace: :update
 
     timestamps()
   end
@@ -20,9 +20,8 @@ defmodule Core.HealthIssues.Entry do
   @doc false
   def changeset(entry, attrs) do
     entry
-    |> cast(attrs, [:context, :severity, :x, :y, :radius, :note])
-    |> put_assoc(:cluster_headache, attrs["cluster_headache"])
-    |> validate_required([:context, :severity, :x, :y, :radius, :cluster_headache])
-    |> foreign_key_constraint(:cluster_headache_id)
+    |> cast(attrs, [:context, :severity, :x, :y, :radius, :note, :aliment_id])
+    |> validate_required([:context, :severity, :x, :y, :radius, :aliment_id])
+    |> foreign_key_constraint(:aliment_id)
   end
 end

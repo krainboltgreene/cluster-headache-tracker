@@ -1,0 +1,44 @@
+<.header>
+  Started <.datetime_timestamp value={@aliment.inserted_at} />
+  <:actions>
+    <.link
+      patch={~p"/aliments/#{@aliment}/show/edit"}
+      phx-click={JS.push_focus()}
+    >
+      <.button>Edit Aliment</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Name"><%= @aliment.name %></:item>
+  <:item title="Entries">
+    <ul>
+      <%= for entry <- @aliment.entries do %>
+        <li style="font-family: monospace;">
+          <.link href={~p"/entries/#{entry}"}>
+            <.hour_timestamp value={entry.inserted_at} /> Pain Index <%= entry.severity %>
+          </.link>
+        </li>
+      <% end %>
+    </ul>
+  </:item>
+</.list>
+
+<.back navigate={~p"/aliments"}>Back</.back>
+
+<.modal
+  :if={@live_action == :edit}
+  id="aliment-modal"
+  show
+  on_cancel={JS.patch(~p"/aliments/#{@aliment}")}
+>
+  <.live_component
+    module={CoreWeb.AlimentLive.FormComponent}
+    id={@aliment.id}
+    title={@page_title}
+    action={@live_action}
+    aliment={@aliment}
+    navigate={~p"/aliments/#{@aliment}"}
+  />
+</.modal>

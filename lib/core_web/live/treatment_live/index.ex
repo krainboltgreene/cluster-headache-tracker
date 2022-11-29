@@ -5,8 +5,8 @@ defmodule CoreWeb.TreatmentLive.Index do
   alias Core.HealthIssues.Treatment
 
   @impl true
-  def mount(%{"cluster_headache_id" => cluster_headache_id}, _session, socket) do
-    {:ok, assign(socket, :treatments, list_treatments(cluster_headache_id))}
+  def mount(_params, _session, socket) do
+    {:ok, assign(socket, :treatments, list_treatments())}
   end
 
   @impl true
@@ -17,15 +17,17 @@ defmodule CoreWeb.TreatmentLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Treatment")
-    |> assign(:treatment, HealthIssues.get_treatment!(id) |> Core.Repo.preload([:cluster_headache, :medication]))
+    |> assign(
+      :treatment,
+      HealthIssues.get_treatment!(id) |> Core.Repo.preload([:medication])
+    )
     |> assign(:medications, Core.Healthcares.list_medications())
   end
 
-  defp apply_action(socket, :new, %{"cluster_headache_id" => cluster_headache_id}) do
+  defp apply_action(socket, :new, _params) do
     socket
     |> assign(:page_title, "New Treatment")
-    |> assign(:treatment, %Treatment{} |> Core.Repo.preload([:cluster_headache, :medication]))
-    |> assign(:cluster_headache, HealthIssues.get_cluster_headache!(cluster_headache_id))
+    |> assign(:treatment, %Treatment{} |> Core.Repo.preload([:medication]))
     |> assign(:medications, Core.Healthcares.list_medications())
   end
 
@@ -36,14 +38,15 @@ defmodule CoreWeb.TreatmentLive.Index do
   end
 
   @impl true
-  def handle_event("delete", %{"id" => id, "cluster_headache_id" => cluster_headache_id}, socket) do
+  def handle_event("delete", %{"id" => id}, socket) do
     treatment = HealthIssues.get_treatment!(id)
     {:ok, _} = HealthIssues.delete_treatment(treatment)
 
-    {:noreply, assign(socket, :treatments, list_treatments(cluster_headache_id))}
+    {:noreply, assign(socket, :treatments, list_treatments())}
   end
 
-  defp list_treatments(cluster_headache_id) do
-    HealthIssues.list_treatments(cluster_headache_id) |> Core.Repo.preload([:cluster_headache, :medication])
+  defp list_treatments() do
+    HealthIssues.list_treatments()
+    |> Core.Repo.preload([:medication])
   end
 end

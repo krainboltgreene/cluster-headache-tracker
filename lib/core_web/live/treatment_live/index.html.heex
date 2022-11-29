@@ -7,7 +7,14 @@
   </:actions>
 </.header>
 
+<.live_component
+  module={CoreWeb.TimelineComponent}
+  id="timeline"
+  treatments={@treatments}
+/>
+
 <.table id="treatments" rows={@treatments} row_click={&JS.navigate(~p"/treatments/#{&1}")}>
+  <:col :let={treatment} label="Time"><.datetime_timestamp value={treatment.inserted_at} /></:col>
   <:col :let={treatment} label="Medication"><%= treatment.medication.name %></:col>
   <:col :let={treatment} label="Dosage"><%= treatment.dosage %></:col>
   <:action :let={treatment}>
@@ -27,7 +34,7 @@
   :if={@live_action in [:new, :edit]}
   id="treatment-modal"
   show
-  on_cancel={JS.navigate(~p"/cluster_headaches")}
+  on_cancel={JS.navigate(~p"/")}
 >
   <.live_component
     module={CoreWeb.TreatmentLive.FormComponent}
@@ -35,8 +42,7 @@
     title={@page_title}
     action={@live_action}
     treatment={@treatment}
-    cluster_headache={@cluster_headache}
     medications={@medications}
-    navigate={~p"/cluster_headaches/#{@cluster_headache}"}
+    navigate={~p"/"}
   />
 </.modal>

@@ -1,7 +1,7 @@
-defmodule CoreWeb.TreatmentLive.Show do
+defmodule CoreWeb.MedicationLive.Show do
   use CoreWeb, :live_view
 
-  alias Core.HealthIssues
+  alias Core.Healthcares
 
   @impl true
   def mount(_params, _session, socket) do
@@ -14,11 +14,12 @@ defmodule CoreWeb.TreatmentLive.Show do
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(
-       :treatment,
-       HealthIssues.get_treatment!(id) |> Core.Repo.preload([:medication])
+       :medication,
+       Healthcares.get_medication!(id)
+       |> Core.Repo.preload([:treatments])
      )}
   end
 
-  defp page_title(:show), do: "Show Treatment"
-  defp page_title(:edit), do: "Edit Treatment"
+  defp page_title(:show), do: "Show Medication"
+  defp page_title(:edit), do: "Edit Medication"
 end
