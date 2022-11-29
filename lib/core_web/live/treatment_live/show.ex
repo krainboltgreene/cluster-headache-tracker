@@ -13,7 +13,10 @@ defmodule CoreWeb.TreatmentLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:treatment, HealthIssues.get_treatment!(id) |> Core.Repo.preload([:cluster_headache, :medication]))}
+     |> assign(
+       :treatment,
+       HealthIssues.get_treatment!(id) |> Core.Repo.preload([:cluster_headache, :medication])
+     )}
   end
 
   defp page_title(:show), do: "Show Treatment"

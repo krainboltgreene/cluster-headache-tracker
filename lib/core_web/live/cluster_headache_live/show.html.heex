@@ -19,7 +19,9 @@
     <ul>
       <%= for entry <- @cluster_headache.entries do %>
         <li style="font-family: monospace;">
-          <.link href={~p"/entries/#{entry}"}><.hour_timestamp value={entry.inserted_at} /> Pain Index <%= entry.severity %></.link>
+          <.link href={~p"/entries/#{entry}"}>
+            <.hour_timestamp value={entry.inserted_at} /> Pain Index <%= entry.severity %>
+          </.link>
         </li>
       <% end %>
       <li>
@@ -31,11 +33,15 @@
     <ul>
       <%= for treatment <- @cluster_headache.treatments do %>
         <li style="font-family: monospace;">
-          <.link href={~p"/treatments/#{treatment}"}><.hour_timestamp value={treatment.inserted_at} /> <%= treatment.medication.name %> (<%= treatment.dosage %>)</.link>
+          <.link href={~p"/treatments/#{treatment}"}>
+            <.hour_timestamp value={treatment.inserted_at} /> <%= treatment.medication.name %> (<%= treatment.dosage %>)
+          </.link>
         </li>
       <% end %>
       <li>
-        <.link href={~p"/treatments/new?cluster_headache_id=#{@cluster_headache}"}>New treatment</.link>
+        <.link href={~p"/treatments/new?cluster_headache_id=#{@cluster_headache}"}>
+          New treatment
+        </.link>
       </li>
     </ul>
   </:item>

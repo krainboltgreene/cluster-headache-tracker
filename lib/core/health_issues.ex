@@ -209,8 +209,6 @@ defmodule Core.HealthIssues do
     Entry.changeset(entry, attrs)
   end
 
-
-
   alias Core.HealthIssues.Treatment
 
   @doc """

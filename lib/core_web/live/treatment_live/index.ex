@@ -17,7 +17,10 @@ defmodule CoreWeb.TreatmentLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
     |> assign(:page_title, "Edit Treatment")
-    |> assign(:treatment, HealthIssues.get_treatment!(id) |> Core.Repo.preload([:cluster_headache, :medication]))
+    |> assign(
+      :treatment,
+      HealthIssues.get_treatment!(id) |> Core.Repo.preload([:cluster_headache, :medication])
+    )
     |> assign(:medications, Core.Healthcares.list_medications())
   end
 
@@ -44,6 +47,7 @@ defmodule CoreWeb.TreatmentLive.Index do
   end
 
   defp list_treatments(cluster_headache_id) do
-    HealthIssues.list_treatments(cluster_headache_id) |> Core.Repo.preload([:cluster_headache, :medication])
+    HealthIssues.list_treatments(cluster_headache_id)
+    |> Core.Repo.preload([:cluster_headache, :medication])
   end
 end

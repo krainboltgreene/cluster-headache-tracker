@@ -16,6 +16,7 @@ defmodule CoreWeb.EntryLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     record = HealthIssues.get_entry!(id) |> Core.Repo.preload([:cluster_headache])
+
     socket
     |> assign(:page_title, "Edit Entry")
     |> assign(:entry, record)

@@ -13,7 +13,9 @@
   <:item title="Dosage"><%= @treatment.dosage %></:item>
 </.list>
 
-<.back navigate={~p"/cluster_headaches/#{@treatment.cluster_headache}"}>Back to cluster headache</.back>
+<.back navigate={~p"/cluster_headaches/#{@treatment.cluster_headache}"}>
+  Back to cluster headache
+</.back>
 
 <.modal
   :if={@live_action == :edit}

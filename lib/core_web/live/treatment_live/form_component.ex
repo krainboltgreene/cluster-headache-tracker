@@ -29,11 +29,7 @@ defmodule CoreWeb.TreatmentLive.FormComponent do
           prompt="Select a medication"
           options={@medications |> Enum.map(&{"#{&1.name} (#{&1.dosage})", &1.id})}
         />
-        <.input
-          field={{f, :dosage}}
-          type="text"
-          label="Dosage"
-        />
+        <.input field={{f, :dosage}} type="text" label="Dosage" />
         <:actions>
           <.button phx-disable-with="Saving...">Save Treatment</.button>
         </:actions>
@@ -62,7 +58,10 @@ defmodule CoreWeb.TreatmentLive.FormComponent do
       socket.assigns.treatment
       |> HealthIssues.change_treatment(
         treatment_params
-        |> Map.put("cluster_headache", socket.assigns.treatment.cluster_headache || socket.assigns.cluster_headache)
+        |> Map.put(
+          "cluster_headache",
+          socket.assigns.treatment.cluster_headache || socket.assigns.cluster_headache
+        )
       )
       |> Map.put(:action, :validate)
 
@@ -73,7 +72,11 @@ defmodule CoreWeb.TreatmentLive.FormComponent do
     save_treatment(
       socket,
       socket.assigns.action,
-      treatment_params |> Map.put("cluster_headache", socket.assigns.treatment.cluster_headache || socket.assigns.cluster_headache)
+      treatment_params
+      |> Map.put(
+        "cluster_headache",
+        socket.assigns.treatment.cluster_headache || socket.assigns.cluster_headache
+      )
     )
   end
 
