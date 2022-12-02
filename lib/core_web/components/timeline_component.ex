@@ -54,7 +54,8 @@ defmodule CoreWeb.TimelineComponent do
                             )
                           ),
                         y: index
-                      }
+                      },
+                      %{x: nil, y: index}
                     ]
                   end)
                 else
