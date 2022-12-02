@@ -33,37 +33,12 @@ defmodule CoreWeb.TimelineComponent do
             |> Enum.with_index(1)
             |> Enum.map(fn {{medication, treatments}, index} ->
               %{
-                type:
-                  if medication.cooldown > 0 do
-                    "line"
-                  else
-                    "scatter"
-                  end,
+                type: "scatter",
                 label: medication.name,
-                data: if medication.cooldown > 0 do
-                  treatments
-                  |> Enum.flat_map(fn treatment ->
-                    [
-                      %{x: timestamp(treatment.inserted_at), y: index},
-                      %{
-                        x:
-                          timestamp(
-                            Timex.add(
-                              treatment.inserted_at,
-                              Timex.Duration.from_hours(medication.cooldown)
-                            )
-                          ),
-                        y: index
-                      },
-                      %{x: nil, y: index}
-                    ]
-                  end)
-                else
-                  treatments
+                data: treatments
                   |> Enum.map(fn treatment ->
                     %{x: timestamp(treatment.inserted_at), y: index}
                   end)
-                end
               }
             end)
           else
